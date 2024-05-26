@@ -7,7 +7,7 @@ const events = [
     title: 'NUS Beach Day',
     date: '18 June 2024',
     description: 'Feeling bored this summer? Join us at Sentosa!',
-    imageUrl: './photos/beach-day.jpg', // Assume images are stored locally
+    imageUrl: '/photos/beach-day.jpg', // Assume images are stored locally
     type: 'Social',
     price: 'FREE',
   },
@@ -15,7 +15,7 @@ const events = [
     title: 'TikTok x SOC Career Fair',
     date: '2 July 2024',
     description: 'Come and get some jobs at TikTok!',
-    imageUrl: './photos/tiktok-career.jpg',
+    imageUrl: '/photos/tiktok-career.jpg',
     type: 'Career',
     price: 'FREE',
   },
@@ -23,7 +23,7 @@ const events = [
     title: 'SoC Orbital Information Session',
     date: '2 July 2024',
     description: 'Want to learn more about Orbital? Come join us!',
-    imageUrl: './photos/orbital-info.jpg',
+    imageUrl: '/photos/orbital-info.jpg',
     type: 'Career',
     price: 'FREE',
   },
@@ -31,7 +31,7 @@ const events = [
     title: 'RunNUS',
     date: '2 July 2024',
     description: 'Run for a good cause at RunNUS!',
-    imageUrl: './photos/runnus.jpg',
+    imageUrl: '/photos/runnus.jpg',
     type: 'Career',
     price: 'FREE',
   },
@@ -65,7 +65,7 @@ const LandingPage = () => {
       <div className="events">
         {events.map((event, index) => (
           <div key={index} className="event-card">
-            <img src={`/images/${event.imageUrl}`} alt={event.title} />
+            <img src={`${event.imageUrl}`} alt={event.title} />
             <h3>{event.title}</h3>
             <p>{event.description}</p>
             <span>{event.date}</span>

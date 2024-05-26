@@ -1,0 +1,52 @@
+.landing-page {
+  text-align: center;
+}
+
+.header {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
+
+.event-card {
+  background-color: white;
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 10px;
+  width: 300px;
+  padding: 10px;
+  text-align: left;
+}
+
+.event-card img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.event-card h3 {
+  margin: 10px 0;
+}
+
+.event-card span {
+  display: block;
+  margin: 5px 0;
+}

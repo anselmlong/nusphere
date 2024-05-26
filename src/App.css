@@ -7,12 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -43,4 +37,19 @@ body {
   margin: 0;
   padding: 0;
 }
+@media screen and (max-width: 400px) {
+  #features {
+    padding: 20px;
+    width: 111%;
+  }
+  #upcoming,
+  #categories,
+  #my-events,
+  #footer {
+    width: 111%;
+  }
 
+  #portfolio {
+    width: 110%;
+  }
+}
