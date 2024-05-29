@@ -37,6 +37,19 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.login button {
+  background-color: #205EFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
 @media screen and (max-width: 400px) {
   #features {
     padding: 20px;
@@ -53,3 +66,4 @@ body {
     width: 110%;
   }
 }
+

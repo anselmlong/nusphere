@@ -1,10 +1,14 @@
 .landing-page {
-  text-align: center;
+  text-align: left;
 }
 
 .header {
   background-color: #f8f9fa;
   padding: 20px;
+  float: left;
+  left: 0px;
+  right: 0px;
+  top: 50px;
 }
 
 .header h1 {
@@ -12,7 +16,7 @@
 }
 
 .header button {
-  background-color: #007bff;
+  background-color: #2B7A05;
   color: white;
   border: none;
   padding: 10px 20px;

@@ -7,7 +7,7 @@ const events = [
     title: 'NUS Beach Day',
     date: '18 June 2024',
     description: 'Feeling bored this summer? Join us at Sentosa!',
-    imageUrl: '/photos/beach-day.jpg', // Assume images are stored locally
+    imageUrl: '/beach-day.jpg', // Assume images are stored locally
     type: 'Social',
     price: 'FREE',
   },
@@ -15,7 +15,7 @@ const events = [
     title: 'TikTok x SOC Career Fair',
     date: '2 July 2024',
     description: 'Come and get some jobs at TikTok!',
-    imageUrl: '/photos/tiktok-career.jpg',
+    imageUrl: '/tiktok-career.jpeg',
     type: 'Career',
     price: 'FREE',
   },
@@ -23,7 +23,7 @@ const events = [
     title: 'SoC Orbital Information Session',
     date: '2 July 2024',
     description: 'Want to learn more about Orbital? Come join us!',
-    imageUrl: '/photos/orbital-info.jpg',
+    imageUrl: '/orbital-info.jpg',
     type: 'Career',
     price: 'FREE',
   },
@@ -31,7 +31,7 @@ const events = [
     title: 'RunNUS',
     date: '2 July 2024',
     description: 'Run for a good cause at RunNUS!',
-    imageUrl: '/photos/runnus.jpg',
+    imageUrl: '/runnus.jpg',
     type: 'Career',
     price: 'FREE',
   },
@@ -55,6 +55,9 @@ const LandingPage = () => {
       .then(data => setEvents(data));
   }, []);
 
+  // Returns the landing page, with title text in h1, and description text in p.
+  // Also includes a button to post an event. This should bring you to the log in page if you are not logged in.
+  // Otherwise, will bring you to the posting page.
   return (
     <div className="landing-page">
       <header className="header">
@@ -62,10 +65,10 @@ const LandingPage = () => {
         <p>All NUS events in one place.</p>
         <button>Post Event</button>
       </header>
-      <div className="events">
+      <div className="events">  
         {events.map((event, index) => (
           <div key={index} className="event-card">
-            <img src={`${event.imageUrl}`} alt={event.title} />
+            <img src={'img/' + event.imageUrl} alt={event.title} />
             <h3>{event.title}</h3>
             <p>{event.description}</p>
             <span>{event.date}</span>
