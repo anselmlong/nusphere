@@ -1,46 +1,36 @@
 package main
 
 import (
-	"encoding/json"
-	"net/http"
+	"go-backend/database"
+	"go-backend/routes"
+	"log"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
-// Event represents an event object
-type Event struct {
-	Title       string `json:"title"`
-	Date        string `json:"date"`
-	Description string `json:"description"`
-	ImageUrl    string `json:"imageUrl"`
-	Type        string `json:"type"`
-	Price       string `json:"price"`
-}
-
-// events is a slice of Event objects
-var events = []Event{
-	{Title: "NUS Beach Day", Date: "18 June 2024", Description: "Feeling bored this summer? Join us at Sentosa!", ImageUrl: "beach-day.jpg", Type: "Social", Price: "FREE"},
-	{Title: "TikTok x SOC Career Fair", Date: "2 July 2024", Description: "Come and get some jobs at TikTok!", ImageUrl: "tiktok-career.jpg", Type: "Career", Price: "FREE"},
-	{Title: "SoC Orbital Information Session", Date: "2 July 2024", Description: "Want to learn more about Orbital? Come join us!", ImageUrl: "orbital-info.jpg", Type: "Career", Price: "FREE"},
-	{Title: "RunNUS", Date: "2 July 2024", Description: "Run for a good cause at RunNUS!", ImageUrl: "runnus.jpg", Type: "Career", Price: "FREE"},
-}
-
-// getEvents is a handler function for the "/api/events" endpoint
-func getEvents(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(events)
-}
-
 func main() {
-	// Create a new router
-	r := mux.NewRouter()
 
-	// Register the getEvents handler function for the "/api/events" endpoint
-	r.HandleFunc("/api/events", getEvents).Methods("GET")
+	//Load environment variables
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-	// Handle all requests using the router
-	http.Handle("/", r)
+	// Connect to the PostgreSQL database
+	database.Connect()
 
-	// Start the HTTP server on port 8000
-	http.ListenAndServe(":8000", nil)
+	// Initialize the Gin router
+	router := gin.Default()
+
+	// Enable CORS - for Frontend & Backend on different domains to communicate
+	router.Use(cors.Default())
+
+	// Initialise routes
+	routes.InitialiseRoutes(router)
+
+	// Run the server
+	router.Run(":8080")
+
 }
