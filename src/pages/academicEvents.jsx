@@ -1,6 +1,6 @@
 import React from "react";
 
-const AcademicEvents = () => {
+const Academic = () => {
     return (
         <div
             style={{
@@ -17,4 +17,4 @@ const AcademicEvents = () => {
     );
 };
 
-export default AcademicEvents;
+export default Academic;

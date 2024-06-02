@@ -1,9 +1,12 @@
 import './App.css';
 import LandingPage from './components/LandingPage';
-// import { Navigation } from './components/Navigation';
+import UpcomingEvents from './pages/UpcomingEvents';
+import MyEvents from './pages/MyEvents';
 import Avatar from '@mui/material/Avatar';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import ResponsiveAppBar from './components/Nav';
 import React, { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
 const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleusercontent.com";
@@ -45,6 +48,14 @@ function App() {
 
   return (
     <div>
+      
+      <ResponsiveAppBar />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="All" element={<LandingPage />} /> 
+        <Route path="Upcoming" element={<UpcomingEvents />} />
+        <Route path="My Events" element={<MyEvents />} />
+      </Routes>
       <div className='login'>
         {profile ? (
           <div>
@@ -56,8 +67,7 @@ function App() {
           <button onClick={() => login()}>Sign in with Google 🚀 </button>
         )}
       </div>
-      {/* <Navigation /> */}
-      <LandingPage />
+
     </div>
   );
 }
