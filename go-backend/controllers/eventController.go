@@ -25,7 +25,7 @@ func GetEvents(c *gin.Context) { //c contains information of incoming HTTP reque
 	events := []models.Event{} //initialise empty slice of event
 	for rows.Next() {
 		var event models.Event
-		if err := rows.Scan(&event.ID, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price); err != nil {
+		if err := rows.Scan(&event.Id, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
