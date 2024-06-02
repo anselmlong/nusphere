@@ -2,7 +2,7 @@ import './App.css';
 import LandingPage from './components/LandingPage';
 import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
-import Avatar from '@mui/material/Avatar';
+import Profile from './pages/Profile';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import ResponsiveAppBar from './components/Nav';
 import React, { useEffect, useState } from 'react';
@@ -49,24 +49,23 @@ function App() {
   return (
     <div>
       
-      <ResponsiveAppBar />
+      <ResponsiveAppBar profile={profile} login={login} logOut={logOut} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="All" element={<LandingPage />} /> 
         <Route path="Upcoming" element={<UpcomingEvents />} />
         <Route path="My Events" element={<MyEvents />} />
+        <Route path="Profile" element={<Profile />} />
       </Routes>
-      <div className='login'>
-        {profile ? (
-          <div>
-            <Avatar alt="user image" src={profile.picture} />
+      {/*<div className='login'>
+        {profile ?  <Avatar alt="user image" src={profile.picture} />
             <p>{profile.name}</p>
             <button onClick={logOut}>Log out</button>
           </div>
         ) : (
           <button onClick={() => login()}>Sign in with Google 🚀 </button>
         )}
-      </div>
+      </div> */}
 
     </div>
   );

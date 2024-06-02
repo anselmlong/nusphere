@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Declare names for headers and settings
 const pages = ['All', 'Upcoming', 'My Events'];
@@ -20,7 +20,7 @@ const categories = ['Academic', 'Social', 'Sports', 'Career'];
 const settings = ['Profile', 'Logout'];
 
 // Create a responsive app bar using MatUI
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ profile, login, logOut }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -43,15 +43,15 @@ function ResponsiveAppBar() {
     <AppBar position="static" sx={{ bgcolor: "gray" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-            <Link to="/" sx={{ display: { xs: 'none', md: 'flex' }}}>
-                <img
-                    style={{height: "50px", width: "50px"}}
-                    className="nav-logo"
-                    src="img\logo.png"
-                    alt="NUSphere Logo"
-                />
-            </Link>
-          
+          <Link to="/" sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <img
+              style={{ height: "50px", width: "50px" }}
+              className="nav-logo"
+              src="img\logo.png"
+              alt="NUSphere Logo"
+            />
+          </Link>
+
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -84,11 +84,11 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">
-                        <Link 
-                            style={{textDecoration: "none", color: "white"}} 
-                            to={`/${page}`}>{page}</Link>
-                    </Typography>
+                  <Typography textAlign="center">
+                    <Link
+                      style={{ textDecoration: "none", color: "white" }}
+                      to={`/${page}`}>{page}</Link>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -119,8 +119,8 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                
-                <Link style={{textDecoration: "none", color: "white"}} to={`/${page}`}>{page}</Link>
+
+                <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>{page}</Link>
               </Button>
             ))}
           </Box>
@@ -128,9 +128,17 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {profile ? (
+                  <div>
+                    <Avatar alt="user image" src={profile.picture} />
+                  </div>
+                ) : (
+                  // Placeholder icon
+                  <AdbIcon/>
+                )}
               </IconButton>
             </Tooltip>
+            {/* Some styling options from MatUI */}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -147,9 +155,22 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              {/** Mapping every setting in the settings array to a link to another page. */}
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center">
+                    {setting === "Profile" ? (
+                      <Link style={{ textDecoration: "none", color: "black" }} to={`/${setting}`}>
+                        {setting}
+                      </Link>
+                    ) : (
+                      <Link style={{ textDecoration: "none", color: "black" }}
+                        onClick={profile ? logOut : () => login()}>
+                        {profile ? setting : "Log In"}
+                      </Link>
+                    )
+                    }
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
