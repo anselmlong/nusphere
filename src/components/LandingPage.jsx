@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 
 // Events data
@@ -55,6 +56,12 @@ const LandingPage = () => {
       .then(data => setEvents(data));
   }, []);
 
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `../PostEvent`; 
+    navigate(path);
+  }
+
   // Returns the landing page, with title text in h1, and description text in p.
   // Also includes a button to post an event. This should bring you to the log in page if you are not logged in.
   // Otherwise, will bring you to the posting page.
@@ -63,7 +70,7 @@ const LandingPage = () => {
       <header className="header">
         <h1>NUSphere</h1>
         <p>All NUS events in one place.</p>
-        <button>Post Event</button>
+        <button onClick={routeChange}>Post Event</button>
       </header>
       <div className="events">  
         {events.map((event, index) => (
