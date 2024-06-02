@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+#NUSphere
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+NUSphere is  comprehensive, user-friendly web application that serves as a one-stop portal for all NUS-related events. Students can both publicise and find out events of their interests easily with the filter functions. Our goal is to simplify how events are shared, discovered, and managed, ensuring that no valuable opportunity for learning, networking, or socialising is missed. 
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Prerequisites](#prerequisites)
+- [Setup Instructions](#setup-instructions)
+  - [Backend Setup](#backend-setup)
+  - [Frontend Setup](#frontend-setup)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+- [License](#license)
 
-### `npm start`
+## Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Ensure you have the following installed:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Golang (>= 1.16)
+- Node.js (>= 14.x)
+- PostgreSQL (>= 12.x)
+- Git
 
-### `npm test`
+## Setup Instructions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend Setup
 
-### `npm run build`
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yourusername/event-app.git
+   cd event-app/backend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Install dependencies:**
+    ```sh
+    go mod tidy
+    Configure the environment variables:
+    Create a .env file in the backend directory with the following content:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    ```bash
+    DATABASE_URL=postgres://youruser:yourpassword@localhost:5432/yourdb?sslmode=disable
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Create the events table in PostgreSQL:**
 
-### `npm run eject`
+    ```sql
+    CREATE TABLE events (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255),
+        date VARCHAR(50),
+        description TEXT,
+        image_url VARCHAR(255),
+        type VARCHAR(50),
+        price VARCHAR(50)
+    );
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. **Run the backend server:**
+    ```sh
+    go run main.go
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Frontend Setup
+1. **Install dependencies:**
+    ```sh
+    npm install
+    
+2. **Run the frontend development server:**
+    ```sh
+    npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Running the Application
+1. Start the backend server by running the command in the backend directory:
+    ```sh
+    go run main.go
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Start the frontend development server by running the command in the frontend directory:
+    ```sh
+    npm start
 
-## Learn More
+3. Open your browser and navigate to http://localhost:3000 to view the application.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### API Endpoints
+GET /events: Retrieve all events.
+POST /events: Create a new event.
+PUT /events/: Update an existing event.
+DELETE /events/: Delete an event.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### License
+This project is licensed under the MIT License - see the LICENSE file for details.
