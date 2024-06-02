@@ -1,4 +1,4 @@
-#NUSphere
+# NUSphere
 
 NUSphere is  comprehensive, user-friendly web application that serves as a one-stop portal for all NUS-related events. Students can both publicise and find out events of their interests easily with the filter functions. Our goal is to simplify how events are shared, discovered, and managed, ensuring that no valuable opportunity for learning, networking, or socialising is missed. 
 
@@ -12,6 +12,7 @@ NUSphere is  comprehensive, user-friendly web application that serves as a one-s
 - [API Endpoints](#api-endpoints)
 - [License](#license)
 
+
 ## Prerequisites
 
 Ensure you have the following installed:
@@ -20,6 +21,7 @@ Ensure you have the following installed:
 - Node.js (>= 14.x)
 - PostgreSQL (>= 12.x)
 - Git
+
 
 ## Setup Instructions
 
@@ -33,14 +35,13 @@ Ensure you have the following installed:
 2. **Install dependencies:**
     ```sh
     go mod tidy
-    Configure the environment variables:
-    Create a .env file in the backend directory with the following content:
 
+3. **Configure the environment variables:**
+    Create a .env file in the backend directory with the following content:
     ```bash
     DATABASE_URL=postgres://youruser:yourpassword@localhost:5432/yourdb?sslmode=disable
 
 3. **Create the events table in PostgreSQL:**
-
     ```sql
     CREATE TABLE events (
         id SERIAL PRIMARY KEY,
@@ -56,6 +57,7 @@ Ensure you have the following installed:
     ```sh
     go run main.go
 
+
 ### Frontend Setup
 1. **Install dependencies:**
     ```sh
@@ -64,6 +66,7 @@ Ensure you have the following installed:
 2. **Run the frontend development server:**
     ```sh
     npm start
+
 
 ### Running the Application
 1. Start the backend server by running the command in the backend directory:
@@ -76,11 +79,13 @@ Ensure you have the following installed:
 
 3. Open your browser and navigate to http://localhost:3000 to view the application.
 
+
 ### API Endpoints
 GET /events: Retrieve all events.
 POST /events: Create a new event.
 PUT /events/: Update an existing event.
 DELETE /events/: Delete an event.
+
 
 ### License
 This project is licensed under the MIT License - see the LICENSE file for details.
