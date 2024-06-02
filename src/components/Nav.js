@@ -20,6 +20,7 @@ const categories = ['Academic', 'Social', 'Sports', 'Career'];
 const settings = ['Profile', 'Logout'];
 
 // Create a responsive app bar using MatUI
+// Don't need to touch this
 function ResponsiveAppBar({ profile, login, logOut }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -45,14 +46,12 @@ function ResponsiveAppBar({ profile, login, logOut }) {
         <Toolbar disableGutters>
           <Link to="/" sx={{ display: { xs: 'none', md: 'flex' } }}>
             <img
-              style={{ height: "50px", width: "50px" }}
+              style={{ height: "40px", width: "40px" }}
               className="nav-logo"
               src="img\logo.png"
               alt="NUSphere Logo"
             />
           </Link>
-
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -93,25 +92,6 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -119,12 +99,10 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-
                 <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>{page}</Link>
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -164,6 +142,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                         {setting}
                       </Link>
                     ) : (
+                      // Bad design probably, need to fix
                       <Link style={{ textDecoration: "none", color: "black" }}
                         onClick={profile ? logOut : () => login()}>
                         {profile ? setting : "Log In"}
