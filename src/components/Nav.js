@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
+import Dropdown from './Dropdown';
+import SearchBar from './SearchAppBar';
 
 // Declare names for headers and settings
 const pages = ['All', 'Upcoming', 'My Events'];
@@ -24,7 +27,8 @@ const settings = ['Profile', 'Logout'];
 function ResponsiveAppBar({ profile, login, logOut }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -41,7 +45,8 @@ function ResponsiveAppBar({ profile, login, logOut }) {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "gray" }}>
+    // Logo and link to home page
+      <AppBar position="static" sx={{ bgcolor: "gray" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to="/" sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -52,6 +57,8 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               alt="NUSphere Logo"
             />
           </Link>
+          
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -92,6 +99,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               ))}
             </Menu>
           </Box>
+          <Dropdown categories={categories} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -153,6 +161,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                 </MenuItem>
               ))}
             </Menu>
+            <SearchBar />
           </Box>
         </Toolbar>
       </Container>

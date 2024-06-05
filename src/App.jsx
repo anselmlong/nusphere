@@ -12,6 +12,11 @@ import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
+import Academic from './pages/categories/Academic';
+import Sports from './pages/categories/Sports';
+import Social from './pages/categories/Social';
+import Career from './pages/categories/Career';
+import SearchResults from './pages/SearchResults';
 
 // Google client ID
 const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleusercontent.com";
@@ -19,7 +24,8 @@ const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleuser
 function App() {
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error)
@@ -62,6 +68,11 @@ function App() {
         <Route path="My Events" element={<MyEvents />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="PostEvent" element={<PostEvent />} />
+        <Route path="Academic" element={<Academic />} />
+        <Route path="Career" element={<Career />} />
+        <Route path="Social" element={<Social />} />
+        <Route path="Sports" element={<Sports />} />
+        <Route path="SearchResults" element={<SearchResults query={searchQuery} />} />
       </Routes>
     </div>
   );

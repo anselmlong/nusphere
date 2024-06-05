@@ -1,6 +1,6 @@
 import React from "react";
 
-const SportsEvents = () => {
+const SearchResults = ({query}) => {
     return (
         <div
             style={{
@@ -11,10 +11,11 @@ const SportsEvents = () => {
             }}
         >
             <h1>
-                Sports Events:
+                You searched for: {query}
+                PLACEHOLDER
             </h1>
         </div>
     );
 };
 
-export default SportsEvents;
+export default SearchResults;

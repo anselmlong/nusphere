@@ -1,6 +1,6 @@
 import React from "react";
 
-const CareerEvents = () => {
+const Social = () => {
     return (
         <div
             style={{
@@ -11,10 +11,10 @@ const CareerEvents = () => {
             }}
         >
             <h1>
-                Career Events:
+                Social Events:
             </h1>
         </div>
     );
 };
 
-export default CareerEvents;
+export default Social;
