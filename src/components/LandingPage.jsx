@@ -70,7 +70,7 @@ const LandingPage = () => {
       <header className="header">
         <h1>NUSphere</h1>
         <p>All NUS events in one place.</p>
-        <button onClick={routeChange}>Post Event</button>
+        <button id="postevent" onClick={routeChange}>Post Event</button>
       </header>
       <div className="events">  
         {events.map((event, index) => (
