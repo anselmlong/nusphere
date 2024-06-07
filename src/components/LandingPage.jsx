@@ -2,42 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 
-// Events data
-const events = [
-  {
-    title: 'NUS Beach Day',
-    date: '18 June 2024',
-    description: 'Feeling bored this summer? Join us at Sentosa!',
-    imageUrl: '/beach-day.jpg', // Assume images are stored locally
-    type: 'Social',
-    price: 'FREE',
-  },
-  {
-    title: 'TikTok x SOC Career Fair',
-    date: '2 July 2024',
-    description: 'Come and get some jobs at TikTok!',
-    imageUrl: '/tiktok-career.jpeg',
-    type: 'Career',
-    price: 'FREE',
-  },
-  {
-    title: 'SoC Orbital Information Session',
-    date: '2 July 2024',
-    description: 'Want to learn more about Orbital? Come join us!',
-    imageUrl: '/orbital-info.jpg',
-    type: 'Career',
-    price: 'FREE',
-  },
-  {
-    title: 'RunNUS',
-    date: '2 July 2024',
-    description: 'Run for a good cause at RunNUS!',
-    imageUrl: '/runnus.jpg',
-    type: 'Career',
-    price: 'FREE',
-  },
-];
-
 // LandingPage component
 const LandingPage = () => {
     /* Using the useState hook to store the events data
@@ -51,9 +15,11 @@ const LandingPage = () => {
   const [eventsData, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch('/api/events')
+    //fetch('/api/events')
+    fetch('http://localhost:8080/events')
       .then(response => response.json())
-      .then(data => setEvents(data));
+      .then(data => setEvents(data))
+      .catch(error => console.error('Error fetching events:', error));
   }, []);
 
   let navigate = useNavigate(); 
@@ -73,7 +39,7 @@ const LandingPage = () => {
         <button id="postevent" onClick={routeChange}>Post Event</button>
       </header>
       <div className="events">  
-        {events.map((event, index) => (
+        {eventsData.map((event, index) => (
           <div key={index} className="event-card">
             <img src={'img/' + event.imageUrl} alt={event.title} />
             <h3>{event.title}</h3>

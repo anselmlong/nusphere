@@ -38,13 +38,43 @@ func GetEvents(c *gin.Context) { //c contains information of incoming HTTP reque
 
 func CreateEvent(c *gin.Context) {
 	var event models.Event
-	if err := c.BindJSON(&event); err != nil {
+
+	event.Title = c.PostForm("eventTitle")
+	event.Date = c.PostForm("date")
+	event.Description = c.PostForm("eventDescription")
+	//event.ImageUrl = c.PostForm("picture")
+	//event.Type = c.PostForm("type")
+	event.Price = c.PostForm("cost")
+	event.Organiser = c.PostForm("organiser")
+	event.StartTime = c.PostForm("startTime")
+	event.EndTime = c.PostForm("endTime")
+	event.RegistrationLink = c.PostForm("registrationLink")
+	event.Location = c.PostForm("location")
+
+	if err := c.ShouldBind(&event); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	_, err := database.DB.Exec("INSERT INTO events (title, date, description, image_url, type, price) VALUES ($1, $2, $3, $4, $5, $6)",
-		event.Title, event.Date, event.Description, event.ImageUrl, event.Type, event.Price)
+	// Handle image upload
+	file, err := c.FormFile("picture")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// Save the uploaded file to a specific directory
+	// For example, you can use the filepath package to generate a unique file name
+	filePath := "public/img/" + file.Filename
+	if err := c.SaveUploadedFile(file, filePath); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Set the image URL to the file path in your event struct
+	event.ImageUrl = filePath
+
+	_, err = database.DB.Exec("INSERT INTO events (title, date, description, image_url, price, organiser, start_time, end_time, registration_link, location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+		event.Title, event.Date, event.Description, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
