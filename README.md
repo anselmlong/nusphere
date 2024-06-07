@@ -29,8 +29,8 @@ Ensure you have the following installed:
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/event-app.git
-   cd event-app/backend
+   git clone https://github.com/anselmlong/nusphere.git
+   cd nusphere/go-backend
 
 2. **Install dependencies:**
     ```sh
@@ -82,8 +82,11 @@ Ensure you have the following installed:
 
 ### API Endpoints
 GET /events: Retrieve all events.
+
 POST /events: Create a new event.
+
 PUT /events/: Update an existing event.
+
 DELETE /events/: Delete an event.
 
 
