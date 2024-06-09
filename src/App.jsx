@@ -72,7 +72,7 @@ function App() {
         <Route path="Career" element={<Career />} />
         <Route path="Social" element={<Social />} />
         <Route path="Sports" element={<Sports />} />
-        <Route path="SearchResults" element={<SearchResults query={searchQuery} />} />
+        <Route path="SearchResults" element={<SearchResults />} />
       </Routes>
     </div>
   );

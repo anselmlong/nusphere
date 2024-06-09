@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
@@ -46,22 +48,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-// Functiuon to filter data based on query
-const filterData = (query, data) => {
-    if (!query) {
-        return data;
-    } else {
-        return data.filter((d) => d.toLowerCase().includes(query));
-    }
-};
-
 
 export default function SearchAppBar() {
     // navigate to search results upon key press for search bar
     let navigate = useNavigate();
-    const handleSearch = () => {
-        let path = `/SearchResults`;
-        navigate(path);
+    
+    const [ searchParams ] = useSearchParams();
+    const query = searchParams.get('query');
+    
+    const setQuery = (query) => {
+        searchParams.set('query', query);
+        navigate(`/SearchResults?query=${query}`);
     }
 
     return (
@@ -72,11 +69,10 @@ export default function SearchAppBar() {
             <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
+                // on enter key press, navigate to search results
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                        console.log('Enter key pressed');
-                        handleSearch()
-                        // setSearchQuery(e.target.value);
+                        setQuery(e.target.value);
                     }
                 }}
             />
