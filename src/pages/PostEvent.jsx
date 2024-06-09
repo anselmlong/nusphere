@@ -11,6 +11,7 @@ const PostEvent = () => {
     const [cost, setCost] = useState('');
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
+    const [type, setType] = useState('');
     const [registrationLink, setRegistrationLink] = useState('');
     const [organiser, setOrganiser] = useState('');
     const [location, setLocation] = useState('');
@@ -26,6 +27,7 @@ const PostEvent = () => {
         formData.append('cost', cost);
         formData.append('startTime', startTime);
         formData.append('endTime', endTime);
+        formData.append('type', type);
         formData.append('registrationLink', registrationLink);
         formData.append('organiser', organiser);
         formData.append('location', location);
@@ -39,6 +41,7 @@ const PostEvent = () => {
             .catch(error => {
                 console.error('There was an error!', error);
             });
+        routeChange();
     };
 
     const handleImageUpload = (e) => {
@@ -82,6 +85,16 @@ const PostEvent = () => {
                     <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
                 </div>
                 <div className="form-group">
+                    <label>Event Type</label>
+                    <select value={type} onChange={(e) => setType(e.target.value)} required>
+                        <option value="Academic">Academic</option>
+                        <option value="Career">Career</option>
+                        <option value="Social">Social</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+                <div className="form-group">
                     <label>Registration Link</label>
                     <input type="url" value={registrationLink} onChange={(e) => setRegistrationLink(e.target.value)} required />
                 </div>
@@ -97,7 +110,7 @@ const PostEvent = () => {
                     <label>Event Description</label>
                     <textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} placeholder="Brief description of your event." required></textarea>
                 </div>
-                <button type="submit" onClick={routeChange}>Submit</button>
+                <button type="submit" onClick={handleSubmit}>Submit</button>
             </form>
         </div>
     );
