@@ -5,6 +5,7 @@ import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
 import Profile from './pages/Profile';
 import PostEvent from './pages/PostEvent';
+import EventDetails from './pages/EventDetails';
 import ResponsiveAppBar from './components/Nav';
 // google stuff
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
@@ -72,6 +73,7 @@ function App() {
         <Route path="Social" element={<Social />} />
         <Route path="Sports" element={<Sports />} />
         <Route path="SearchResults" element={<SearchResults />} />
+        <Route path="events/:id" element={<EventDetails />} />
       </Routes>
     </div>
   );

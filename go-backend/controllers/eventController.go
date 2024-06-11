@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"net/http"
 	"path/filepath"
 
@@ -35,6 +36,24 @@ func GetEvents(c *gin.Context) { //c contains information of incoming HTTP reque
 
 	//Response in JSON format
 	c.JSON(http.StatusOK, events)
+}
+
+func GetEventByID(c *gin.Context) {
+	id := c.Param("id")
+	var event models.Event
+
+	//Query uses a placeholder ($1) to prevent SQL injection
+	err := database.DB.QueryRow("SELECT title, date, description, image_url, type, price, organiser, start_time, end_time, registration_link, location FROM events WHERE id = $1", id).Scan(&event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price, &event.Organiser, &event.StartTime, &event.EndTime, &event.RegistrationLink, &event.Location)
+	if err != nil {
+		if err == sql.ErrNoRows { // Check if the error is because no rows were found
+			c.JSON(http.StatusNotFound, gin.H{"message": "Event not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error retrieving event"})
+		}
+		return
+	}
+
+	c.JSON(http.StatusOK, event)
 }
 
 func CreateEvent(c *gin.Context) {
