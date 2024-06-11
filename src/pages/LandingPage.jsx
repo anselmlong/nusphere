@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
+import Events from '../components/Events';
 
 // LandingPage component
 const LandingPage = () => {
@@ -36,20 +37,10 @@ const LandingPage = () => {
       <header className="header">
         <h1>NUSphere</h1>
         <p>All NUS events in one place.</p>
-        <button id="postevent" onClick={routeChange}>Post Event</button>
+        <button id="postevent" 
+        className='bg-green-900 text-white cursor-pointer rounded' onClick={routeChange}>Post Event</button>
       </header>
-      <div className="events">  
-        {eventsData.map((event, index) => (
-          <div key={index} className="event-card">
-            <img src={'img/' + event.imageUrl} alt={event.title} />
-            <h3>{event.title}</h3>
-            <p>{event.description}</p>
-            <span>{event.date}</span>
-            <span>{event.type}</span>
-            <span>{event.price}</span>
-          </div>
-        ))}
-      </div>
+    <Events eventsData={eventsData} /> 
     </div>
   );
 };
