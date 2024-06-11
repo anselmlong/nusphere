@@ -6,6 +6,7 @@ import './PostEvent.css';
 
 
 const PostEvent = () => {
+    
     const [eventTitle, setEventTitle] = useState('');
     const [date, setDate] = useState('');
     const [cost, setCost] = useState('');
@@ -16,10 +17,15 @@ const PostEvent = () => {
     const [organiser, setOrganiser] = useState('');
     const [location, setLocation] = useState('');
     const [eventDescription, setEventDescription] = useState('');
-    const [picture, setPicture] = useState(null);
+    const [picture, setPicture] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!eventTitle || !date || !startTime || !endTime || !type || !registrationLink || !organiser || !location || !eventDescription) {
+            alert('Please fill out all required fields.');
+            return;
+        }
 
         const formData = new FormData();
         formData.append('eventTitle', eventTitle);
@@ -34,12 +40,17 @@ const PostEvent = () => {
         formData.append('eventDescription', eventDescription);
         formData.append('picture', picture);
 
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
         axios.post('http://localhost:8080/events', formData)
             .then(response => {
                 console.log(response);
             })
             .catch(error => {
                 console.error('There was an error!', error);
+                console.log(error.response.data)
             });
         routeChange();
     };
@@ -53,7 +64,7 @@ const PostEvent = () => {
         let path = `../`;
         navigate(path);
     };
-    
+
     // Render the form
     return (
         <div className="post-event">
@@ -87,6 +98,7 @@ const PostEvent = () => {
                 <div className="form-group">
                     <label>Event Type</label>
                     <select value={type} onChange={(e) => setType(e.target.value)} required>
+                        <option value="">Select Event Type</option>
                         <option value="Academic">Academic</option>
                         <option value="Career">Career</option>
                         <option value="Social">Social</option>
@@ -110,7 +122,7 @@ const PostEvent = () => {
                     <label>Event Description</label>
                     <textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} placeholder="Brief description of your event." required></textarea>
                 </div>
-                <button type="submit" onClick={handleSubmit}>Submit</button>
+                <button type="submit">Submit</button>
             </form>
         </div>
     );

@@ -19,7 +19,7 @@ const Category = ({ category }) => {
 
 	function returnMatchingCategory(data) {
 		return data.filter((data) =>
-			data.type == category
+			data.type.toLowerCase() === category.toLowerCase()
 		);
 	}
 

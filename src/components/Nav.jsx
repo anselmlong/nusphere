@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,8 +26,7 @@ const settings = ['Profile', 'Logout'];
 function ResponsiveAppBar({ profile, login, logOut }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  
-  
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -46,7 +44,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
 
   return (
     // Logo and link to home page
-      <AppBar position="static" sx={{ bgcolor: "gray" }}>
+    <AppBar position="static" sx={{ bgcolor: "gray" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to="/" sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -57,8 +55,8 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               alt="NUSphere Logo"
             />
           </Link>
-          
-          
+
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -88,27 +86,24 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link
-                      style={{ textDecoration: "none", color: "white" }}
-                      to={`/${page}`}>{page}</Link>
-                  </Typography>
-                </MenuItem>
-              ))}
+
+
             </Menu>
           </Box>
+          {/** Dropdown for categories */}
           <Dropdown categories={categories} />
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>{page}</Link>
-              </Button>
+              <Link style={{ textDecoration: "none", color: "white" }} to={`/${page}`}>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
@@ -120,7 +115,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                   </div>
                 ) : (
                   // Placeholder icon
-                  <AdbIcon/>
+                  <AdbIcon />
                 )}
               </IconButton>
             </Tooltip>
