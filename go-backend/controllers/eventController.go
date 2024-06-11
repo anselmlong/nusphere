@@ -43,7 +43,7 @@ func CreateEvent(c *gin.Context) {
 	event.Date = c.PostForm("date")
 	event.Description = c.PostForm("eventDescription")
 	//event.ImageUrl = c.PostForm("picture")
-	//event.Type = c.PostForm("type")
+	event.Type = c.PostForm("type")
 	event.Price = c.PostForm("cost")
 	event.Organiser = c.PostForm("organiser")
 	event.StartTime = c.PostForm("startTime")
