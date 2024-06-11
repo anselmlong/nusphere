@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 
@@ -64,17 +65,19 @@ func CreateEvent(c *gin.Context) {
 	}
 	// Save the uploaded file to a specific directory
 	// For example, you can use the filepath package to generate a unique file name
-	filePath := "public/img/" + file.Filename
+	//filePath := "public/img/" + file.Filename
+	filePath := filepath.Join("..", "public", "img", file.Filename)
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	// Set the image URL to the file path in your event struct
-	event.ImageUrl = "/" + filePath
+	//event.ImageUrl = "/" + filePath
+	event.ImageUrl = file.Filename
 
-	_, err = database.DB.Exec("INSERT INTO events (title, date, description, image_url, price, organiser, start_time, end_time, registration_link, location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-		event.Title, event.Date, event.Description, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location)
+	_, err = database.DB.Exec("INSERT INTO events (title, date, description, type, image_url, price, organiser, start_time, end_time, registration_link, location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+		event.Title, event.Date, event.Description, event.Type, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
