@@ -43,7 +43,7 @@ func CreateEvent(c *gin.Context) {
 	event.Date = c.PostForm("date")
 	event.Description = c.PostForm("eventDescription")
 	//event.ImageUrl = c.PostForm("picture")
-	//event.Type = c.PostForm("type")
+	event.Type = c.PostForm("type")
 	event.Price = c.PostForm("cost")
 	event.Organiser = c.PostForm("organiser")
 	event.StartTime = c.PostForm("startTime")
@@ -71,7 +71,7 @@ func CreateEvent(c *gin.Context) {
 	}
 
 	// Set the image URL to the file path in your event struct
-	event.ImageUrl = filePath
+	event.ImageUrl = "/" + filePath
 
 	_, err = database.DB.Exec("INSERT INTO events (title, date, description, image_url, price, organiser, start_time, end_time, registration_link, location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
 		event.Title, event.Date, event.Description, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location)
