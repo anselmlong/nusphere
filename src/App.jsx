@@ -1,6 +1,6 @@
 import './App.css';
 // pages
-import LandingPage from './components/LandingPage';
+import LandingPage from './pages/LandingPage';
 import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
 import Profile from './pages/Profile';
@@ -24,7 +24,6 @@ const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleuser
 function App() {
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
