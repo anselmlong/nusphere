@@ -6,7 +6,7 @@ import MyEvents from './pages/MyEvents';
 import Profile from './pages/Profile';
 import PostEvent from './pages/PostEvent';
 import EventDetails from './components/EventDetails';
-import ResponsiveAppBar from './components/Nav';
+import ResponsiveAppBar from './components/NavigationBar/Nav';
 // google stuff
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 // React stuff
