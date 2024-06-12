@@ -36,11 +36,11 @@ const SearchResults = () => {
     <div className="search-results">
       {search(data).length > 0
         ? <div>
-          <h1 className="text-3xl underline text-blue-500">Search Results for "{query}"</h1>
+          <h1 className="text-3xl">Search Results for "{query}"</h1>
           <Events eventsData={search(data)} />
         </div>
         : <div>
-          <h1 className="text-3xl text-red-500">No results found for "{query}"</h1>
+          <h1 className="text-3xl">No results found for "{query}"</h1>
         </div>
       }
     </div>

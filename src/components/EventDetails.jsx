@@ -7,11 +7,13 @@ const EventDetails = () => {
     const [event, setEvent] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/events/${id}`)
+        fetch(`http://localhost:8080/events/` + id)
             .then(response => response.json())
             .then(data => setEvent(data))
             .catch(error => console.error('Error fetching event details:', error));
     }, [id]);
+
+    console.log(event);
 
     //event == null -> data is still fetching
     if (!event) {
