@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -9,9 +7,9 @@ import SearchIcon from '@mui/icons-material/Search';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.primary.light, 0.15),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
+        backgroundColor: alpha(theme.palette.primary.light, 0.25),
     },
     marginLeft: 0,
     width: '100%',
@@ -29,10 +27,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: alpha(theme.palette.primary.dark, 0.23),
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
+    color: 'black',
     width: '100%',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),

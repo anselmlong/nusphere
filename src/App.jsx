@@ -17,13 +17,19 @@ import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 
 function App() {
-  const [user, setUser] = useState([]);
-  const [profile, setProfile] = useState([]);
+  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error)
   });
+
+  // log out function to log the user out of google and set the profile array to null
+  const logOut = () => {
+    googleLogout();
+    setProfile(null);
+  };
 
   // don't touch this
   useEffect(
@@ -45,11 +51,7 @@ function App() {
     [user]
   );
 
-  // log out function to log the user out of google and set the profile array to null
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-  };
+
 
 
   return (
@@ -57,9 +59,9 @@ function App() {
       <ResponsiveAppBar profile={profile} login={login} logOut={logOut} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="All" element={<LandingPage />} /> 
+        <Route path="All" element={<LandingPage />} />
         <Route path="Upcoming" element={<UpcomingEvents />} />
-        <Route path="My Events" element={<MyEvents />} />
+        <Route path="My Events" element={<MyEvents user={profile}/>} />
         <Route path="Profile" element={<Profile />} />
         <Route path="PostEvent" element={<PostEvent />} />
         <Route path="categories/:category" element={<Category />} />

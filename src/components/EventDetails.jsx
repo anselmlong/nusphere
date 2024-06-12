@@ -38,7 +38,7 @@ const EventDetails = () => {
             <p>{event.description}</p>
             <p>Organised By: {event.organiser}</p>  
             <button id="postevent" 
-                className='bg-green-900 text-white cursor-pointer rounded' onClick={() => {window.location.href= event.registrationLink}}>Register</button>    
+                className='bg-green-900 text-white cursor-pointer rounded' onClick={() => {window.location.href = event.registrationLink}}>Register</button>    
         </div>
     );
 };
