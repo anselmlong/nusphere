@@ -5,7 +5,7 @@ import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
 import Profile from './pages/Profile';
 import PostEvent from './pages/PostEvent';
-import EventDetails from './pages/EventDetails';
+import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/Nav';
 // google stuff
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
@@ -13,11 +13,8 @@ import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import Academic from './pages/categories/Academic';
-import Sports from './pages/categories/Sports';
-import Social from './pages/categories/Social';
-import Career from './pages/categories/Career';
 import SearchResults from './pages/SearchResults';
+import Category from './components/Category';
 
 // Google client ID
 const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleusercontent.com";
@@ -68,10 +65,7 @@ function App() {
         <Route path="My Events" element={<MyEvents />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="PostEvent" element={<PostEvent />} />
-        <Route path="Academic" element={<Academic />} />
-        <Route path="Career" element={<Career />} />
-        <Route path="Social" element={<Social />} />
-        <Route path="Sports" element={<Sports />} />
+        <Route path="categories/:category" element={<Category />} />
         <Route path="SearchResults" element={<SearchResults />} />
         <Route path="events/:id" element={<EventDetails />} />
       </Routes>

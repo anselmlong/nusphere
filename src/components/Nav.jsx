@@ -44,8 +44,8 @@ function ResponsiveAppBar({ profile, login, logOut }) {
 
   return (
     // Logo and link to home page
-    <AppBar position="static" sx={{ bgcolor: "gray" }}>
-      <Container maxWidth="xl">
+    <AppBar position="flex" sx={{ bgcolor: "grey" }}>
+      <Container maxWidth="x0.5">
         <Toolbar disableGutters>
           <Link to="/" sx={{ display: { xs: 'none', md: 'flex' } }}>
             <img

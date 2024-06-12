@@ -3,6 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -60,12 +61,20 @@ const StyledMenu = styled((props) => (
 export default function Dropdown({ categories }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  let navigate = useNavigate();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleCategoryRoute = (event) => {
+    handleClose();
+    const path = `/categories/${event.target.innerText}`;
+    navigate(path);
+  }
 
   return (
     <div>
@@ -93,11 +102,9 @@ export default function Dropdown({ categories }) {
       >
         {/** Mapping categories to their respective pages */}
         {categories.map((category) => (
-          <Link style={{ textDecoration: "none", color: "black" }} to={`/${category}`}>
-            <MenuItem key={category} onClick={handleClose} disableRipple>
+            <MenuItem key={category} onClick={handleCategoryRoute} disableRipple sx={{ color: 'black' }}>
               {category}
             </MenuItem>
-          </Link>
         ))}
       </StyledMenu>
     </div>

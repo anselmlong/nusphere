@@ -1,11 +1,13 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import Events from "./Events";
 import { useState, useEffect } from "react";
 
-const Category = ({ category }) => {
+const Category = () => {
 
 	const [data, setData] = useState([]);
-
+	const { category } = useParams();
+	
 	const fetchData = () => {
 		return fetch('http://localhost:8080/events')
 			.then((res) => res.json())
@@ -24,7 +26,17 @@ const Category = ({ category }) => {
 	}
 
 	return (
-		<Events eventsData={returnMatchingCategory(data)} />
+		<div style={{
+			display: "flex",
+			justifyContent: "centre",
+			alignItems: "centre",
+			height: "100vh",
+		}}>
+			<h1>
+				Events with {category} tag:
+			</h1>
+			<Events eventsData={returnMatchingCategory(data)} />
+		</div>
 	);
 };
 
