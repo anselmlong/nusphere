@@ -45,7 +45,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
   return (
     // Logo and link to home page
     <AppBar position="static" sx={{ bgcolor: "grey" }}>
-      <Container sx={{maxWidth: '1200px', mx: 'auto'}}>
+      <Container sx={{ maxWidth: '1200px', mx: 'auto' }}>
         <Toolbar disableGutters>
           <Link to="/" sx={{ display: { xs: 'none', md: 'flex' } }}>
             <img
@@ -119,6 +119,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                 )}
               </IconButton>
             </Tooltip>
+
             {/* Some styling options from MatUI */}
             <Menu
               sx={{ mt: '45px' }}
@@ -139,20 +140,20 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               {/** Mapping every setting in the settings array to a link to another page. */}
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">
-                    {setting === "Profile" ? (
-                      <Link style={{ textDecoration: "none", color: "black" }} to={`/${setting}`}>
-                        {setting}
-                      </Link>
-                    ) : (
-                      // Bad design probably, need to fix
-                      <Link style={{ textDecoration: "none", color: "black" }}
-                        onClick={profile ? logOut : () => login()}>
-                        {profile ? setting : "Log In"}
-                      </Link>
-                    )
-                    }
-                  </Typography>
+                  <Link style={{ textDecoration: "none", color: "black" }} to={`/${setting}`}>
+                    <Typography textAlign="center">
+                      {setting === "Profile" 
+                      ? <p>{setting}</p>
+                      : (
+                        // Bad design probably, need to fix
+                        <div
+                          onClick={profile ? logOut : () => login()}>
+                          {profile ? setting : "Log In"}
+                        </div>
+                      )
+                      }
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

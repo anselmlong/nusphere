@@ -16,9 +16,6 @@ import axios from 'axios';
 import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 
-// Google client ID
-const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleusercontent.com";
-
 function App() {
   const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
