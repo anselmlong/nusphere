@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
@@ -60,7 +61,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
 
   return (
     <>
-      <AppBar position="static" sx={{ bgcolor: "white", padding: 0 }}>
+      <AppBar position="static" sx={{ bgcolor: "white", padding: 0 , boxshadow: "none" }}>
         <Container sx={{ maxWidth: 'x1' }}>
           <Toolbar disableGutters>
             {/** Logo positioned outside and above the navigation bar */}
@@ -95,6 +96,14 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               <Dropdown categories={categories} />
             </Box>
             
+            <Box sx={{ m : 2}}>
+              <Link to="/Bookmarks">
+                <IconButton>
+                  <BookmarkIcon />
+                </IconButton>
+              </Link>
+            </Box>
+
             {/** Search bar */}
             <SearchBar />
 

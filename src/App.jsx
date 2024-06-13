@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import PostEvent from './pages/PostEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
+import Bookmarks from './pages/Bookmarks';
 // google stuff
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 // React stuff
@@ -67,6 +68,7 @@ function App() {
         <Route path="categories/:category" element={<Category />} />
         <Route path="SearchResults" element={<SearchResults />} />
         <Route path="events/:id" element={<EventDetails />} />
+        <Route path="Bookmarks" element={<Bookmarks />} />
       </Routes>
     </div>
   );
