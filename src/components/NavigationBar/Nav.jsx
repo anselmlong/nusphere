@@ -59,6 +59,12 @@ function ResponsiveAppBar({ profile, login, logOut }) {
     }
   }
 
+  const handleLogIn = () => {
+    setAnchorElUser(null);
+    const path = `SignIn`;
+    navigate(path);
+  }
+
   return (
     <>
       <AppBar position="static" sx={{ bgcolor: "white", padding: 0 , boxshadow: "none" }}>
@@ -116,7 +122,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                       <Avatar alt="user image" src={profile.picture} />
                     </div>
                   ) : (
-                    <Button variant="contained" onClick={() => login()} >Log In</Button>
+                    <Button variant="contained" onClick={handleLogIn} >Log In</Button>
                   )}
                 </IconButton>
               </Tooltip>

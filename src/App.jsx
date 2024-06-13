@@ -8,6 +8,8 @@ import PostEvent from './pages/PostEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
 import Bookmarks from './pages/Bookmarks';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 // google stuff
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 // React stuff
@@ -69,6 +71,8 @@ function App() {
         <Route path="SearchResults" element={<SearchResults />} />
         <Route path="events/:id" element={<EventDetails />} />
         <Route path="Bookmarks" element={<Bookmarks />} />
+        <Route path="SignIn" element={<SignIn login={login} />} />
+        <Route path="SignUp" element={<SignUp login={login} />} />
       </Routes>
     </div>
   );
