@@ -17,7 +17,7 @@ import Dropdown from './Dropdown';
 import SearchBar from './SearchAppBar';
 
 // Declare names for headers and settings
-const pages = ['All', 'Upcoming', 'My Events'];
+const pages = ['All', 'Upcoming'];
 const categories = ['Academic', 'Social', 'Sports', 'Career'];
 
 // Create a responsive app bar using MatUI
@@ -43,9 +43,9 @@ function ResponsiveAppBar({ profile, login, logOut }) {
 
   let navigate = useNavigate();
 
-  const handleProfile = () => {
+  const handleMyEvents = () => {
     setAnchorElUser(null);
-    const path = `Profile`;
+    const path = `My-Events`;
     navigate(path);
   };
 
@@ -101,7 +101,8 @@ function ResponsiveAppBar({ profile, login, logOut }) {
             <Box sx={{ m: 2 }}>
               <Dropdown categories={categories} />
             </Box>
-            
+
+            {/** Bookmark button */}
             <Box sx={{ m : 2}}>
               <Link to="/Bookmarks">
                 <IconButton>
@@ -149,9 +150,9 @@ function ResponsiveAppBar({ profile, login, logOut }) {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  <MenuItem key={"Profile"} onClick={handleProfile}>
+                  <MenuItem key={"my events"} onClick={handleMyEvents}>
                     <Typography textAlign="center">
-                      Profile
+                      My Events
                     </Typography>
                   </MenuItem>
                   <MenuItem key={"logger"} onClick={handleLog}>

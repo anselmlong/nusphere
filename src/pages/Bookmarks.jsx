@@ -32,7 +32,7 @@ const Bookmarks = () => {
 			<h1>
 				Bookmarked Events:
 				<div>
-					<Events eventsData={bookmarked(data)} />
+					<Events eventsData={bookmarked(data)} deleteButton={true} />
 				</div>
 			</h1>
 		</div>
