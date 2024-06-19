@@ -3,7 +3,6 @@ import './App.css';
 import LandingPage from './pages/LandingPage';
 import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
-import Profile from './pages/Profile';
 import PostEvent from './pages/PostEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
@@ -70,8 +69,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="All" element={<LandingPage />} />
         <Route path="Upcoming" element={<UpcomingEvents />} />
-        <Route path="My Events" element={<MyEvents user={profile}/>} />
-        <Route path="Profile" element={<Profile />} />
+        <Route path="My-Events" element={<MyEvents profile={profile}/>} />
         <Route path="PostEvent" element={<PostEvent />} />
         <Route path="categories/:category" element={<Category />} />
         <Route path="SearchResults" element={<SearchResults />} />

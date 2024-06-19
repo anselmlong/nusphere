@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './EventDetails.css';
 
-const EventDetails = () => {
+const EventDetails = ({ editing }) => {
     const { id } = useParams(); // Get the event ID from the URL
     const [event, setEvent] = useState(null);
 
     let navigate = useNavigate(); 
+
     const registerRoute = (path) =>{ 
-        navigate("/" + path, {replace : true});
+        console.log("Bringing to registration link. " + path)
+        // navigate("/" + path, {replace : true});
     }
 
     useEffect(() => {
@@ -26,11 +28,19 @@ const EventDetails = () => {
         return <div>Loading...</div>;
     }
 
+    if (editing) {
+
+    }
     return (
         <div className="event-details">
             <h1>{event.title}</h1>
             {event.imageUrl && <img src={"/img/" + event.imageUrl} alt={event.title} />}
             <p>Date: {event.date}</p>
+            {/*<input 
+                type="date" 
+                value={event.date} 
+                onChange={e => setEvent({ ...event, date: e.target.value })}
+            />*/}
             <p>Cost: {event.price}</p>
             <p>Time: {event.startTime} - {event.endTime}</p>
             <p>Type: {event.type}</p>
