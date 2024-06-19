@@ -47,6 +47,12 @@ function App() {
           })
           .then((res) => {
             setProfile(res.data);
+            axios.post('/google-users', {
+              googleId: res.data.id,
+              name: res.data.name,
+              email: res.data.email,
+              token: user.access_token
+            })
           })
           .catch((err) => console.log(err));
       }

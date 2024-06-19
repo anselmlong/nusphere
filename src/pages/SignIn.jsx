@@ -43,7 +43,7 @@ export default function SignIn({ login }) {
         const password = data.get('password');
 
         try {
-            const response = await axios.post('http://localhost:8080/users', { email, password });
+            const response = await axios.post('http://localhost:8080/users-login', { email, password });
             if (response.status === 200) {
                 login(response.data.token); // Assuming response.data.token is your auth token
                 navigate('/');

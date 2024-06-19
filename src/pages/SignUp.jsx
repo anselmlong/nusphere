@@ -42,11 +42,14 @@ export default function SignUp({ login }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        axios.post('http://localhost:8080/users', data)
+        const payload = {
+            Email: data.get('email'),
+            Password: data.get('password'),
+            Name: data.get('firstName') + ' ' + data.get('lastName'),
+        };
+        console.log(payload);
+
+        axios.post('http://localhost:8080/users', payload)
             .then((response) => {
                 console.log(response);
             }, (error) => {
