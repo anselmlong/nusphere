@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
 import PostEvent from './pages/PostEvent';
+import EditEvent from './pages/EditEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
 import Bookmarks from './pages/Bookmarks';
@@ -40,7 +41,7 @@ function App() {
         axios
           .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
             headers: {
-              Authorization: `Bearer ${user.id_token}`,
+              Authorization: `Bearer ${user.access_token}`,
               Accept: 'application/json'
             }
           })
@@ -77,6 +78,7 @@ function App() {
         <Route path="Upcoming" element={<UpcomingEvents />} />
         <Route path="My-Events" element={<MyEvents profile={profile}/>} />
         <Route path="PostEvent" element={<PostEvent />} />
+        <Route path="EditEvent" element={<EditEvent />} />
         <Route path="categories/:category" element={<Category />} />
         <Route path="SearchResults" element={<SearchResults />} />
         <Route path="events/:id" element={<EventDetails />} />
