@@ -40,12 +40,24 @@ function App() {
         axios
           .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
             headers: {
-              Authorization: `Bearer ${user.access_token}`,
+              Authorization: `Bearer ${user.id_token}`,
               Accept: 'application/json'
             }
           })
           .then((res) => {
             setProfile(res.data);
+            axios.post('http://localhost:8080/google-users', {
+              google_id: res.data.id,
+              name: res.data.name,
+              email: res.data.email,
+              token: user.id_token
+            })
+            .then((res) => {
+              console.log('User successfully logged in with Google:', res.data);
+            })
+            .catch((err) => {
+              console.log('Error posting Google user data:', err);
+            });
           })
           .catch((err) => console.log(err));
       }

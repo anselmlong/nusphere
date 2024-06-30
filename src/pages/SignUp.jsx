@@ -42,17 +42,21 @@ export default function SignUp({ login }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+        const payload = {
             email: data.get('email'),
             password: data.get('password'),
-        });
-        axios.post('http://localhost:8080/users', data)
+            name: data.get('firstName') + ' ' + data.get('lastName'),
+        };
+        console.log(payload);
+
+        axios.post('http://localhost:8080/users', payload)
             .then((response) => {
                 console.log(response);
+                routeChange();
             }, (error) => {
                 console.log(error);
             });
-        routeChange();
+        
     };
 
     const handleGoogleLogIn = () => {

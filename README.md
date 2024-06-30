@@ -41,7 +41,7 @@ Ensure you have the following installed:
     ```bash
     DATABASE_URL=postgres://youruser:yourpassword@localhost:5432/yourdb?sslmode=disable
 
-3. **Create the events table in PostgreSQL:**
+3. **Create the events and users table in PostgreSQL:**
     ```sql
     CREATE TABLE events (
         id SERIAL PRIMARY KEY,
@@ -50,7 +50,15 @@ Ensure you have the following installed:
         description TEXT,
         image_url VARCHAR(255),
         type VARCHAR(50),
-        price VARCHAR(50)
+        price VARCHAR(50),
+        user_id INT REFERENCES users(id)
+    );
+
+    CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        google_id VARCHAR(255) UNIQUE NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL
     );
 
 4. **Run the backend server:**

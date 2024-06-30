@@ -43,7 +43,7 @@ export default function SignIn({ login }) {
         const password = data.get('password');
 
         try {
-            const response = await axios.post('http://localhost:8080/users', { email, password });
+            const response = await axios.post('http://localhost:8080/users-login', { email, password });
             if (response.status === 200) {
                 login(response.data.token); // Assuming response.data.token is your auth token
                 navigate('/');
@@ -106,20 +106,20 @@ export default function SignIn({ login }) {
                         />
                         {error && <Typography color="error">{error}</Typography>}
                         <Button
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={handleGoogleLogIn}
-                        >
-                            Log In with Google 🚀
-                        </Button>
-                        <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Log In
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            onClick={handleGoogleLogIn}
+                        >
+                            Log In with Google 🚀
                         </Button>
                         <Grid container>
                             <Grid item xs>
