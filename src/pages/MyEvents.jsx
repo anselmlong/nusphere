@@ -23,7 +23,7 @@ const MyEvents = ({ profile }) => {
     const [userEvents, setUserEvents] = useState([]);
 
     const fetchData = () => {
-        return fetch('http://localhost:8080/events')
+        return fetch(process.env.REACT_APP_BACKEND_URL + "/events")
             .then((res) => res.json())
             .then((d) => {
                 setData(d);
@@ -61,7 +61,7 @@ const MyEvents = ({ profile }) => {
     };
 
     const handleDeleteEvent = (eventId) => {
-        axios.delete(`http://localhost:8080/events/${eventId}`)
+        axios.delete(process.env.REACT_APP_BACKEND_URL + "/events/${eventId}")
             .then(() => {
                 // After successful deletion, fetch the updated list of user events
                 fetchData();

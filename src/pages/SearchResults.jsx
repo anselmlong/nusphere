@@ -9,7 +9,7 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query');
   const fetchData = () => {
-    return fetch('http://localhost:8080/events')
+    return fetch(process.env.REACT_APP_BACKEND_URL + "/events")
       .then((res) => res.json())
       .then((d) => setData(d));
   };
