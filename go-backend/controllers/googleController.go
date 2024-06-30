@@ -30,7 +30,7 @@ func GoogleLogin(c *gin.Context) {
 	//Validate the token
 	payload, err := idtoken.Validate(context.Background(), requestBody.Token, requestBody.GoogleID)
 	if err != nil {
-		log.Println("Error validating token:", err.Error(), http.StatusBadRequest)
+		log.Println("Error validating token:", err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid token"})
 		return
 	}
