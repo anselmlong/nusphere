@@ -21,6 +21,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     //fetch('/api/events')
+    console.log(process.env.REACT_APP_BACKEND_URL)
     fetch(process.env.REACT_APP_BACKEND_URL + "/events")
       .then(response => response.json())
       .then(data => setEvents(data))
