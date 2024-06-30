@@ -106,20 +106,20 @@ export default function SignIn({ login }) {
                         />
                         {error && <Typography color="error">{error}</Typography>}
                         <Button
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={handleGoogleLogIn}
-                        >
-                            Log In with Google 🚀
-                        </Button>
-                        <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Log In
+                        </Button>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            onClick={handleGoogleLogIn}
+                        >
+                            Log In with Google 🚀
                         </Button>
                         <Grid container>
                             <Grid item xs>

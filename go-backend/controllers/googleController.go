@@ -3,8 +3,10 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"go-backend/database"
 	"go-backend/models"
+	"log"
 	"net/http"
 
 	//"golang.org/x/oauth2"
@@ -14,7 +16,7 @@ import (
 
 func GoogleLogin(c *gin.Context) {
 	var requestBody struct {
-		GoogleID string `json:"googleId"`
+		GoogleID string `json:"google_id"`
 		Token    string `json:"token"`
 	}
 
@@ -23,13 +25,17 @@ func GoogleLogin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
 		return
 	}
+	log.Println("Received token:", requestBody.Token)
 
 	//Validate the token
 	payload, err := idtoken.Validate(context.Background(), requestBody.Token, requestBody.GoogleID)
 	if err != nil {
+		log.Println("Error validating token:", err.Error(), http.StatusBadRequest)
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid token"})
 		return
 	}
+
+	fmt.Printf("Token is valid. Payload: %v\n", payload)
 
 	// Extract user info from the payload
 	email := payload.Claims["email"].(string)
@@ -42,6 +48,7 @@ func GoogleLogin(c *gin.Context) {
 		_, err = database.DB.Exec("INSERT INTO users (google_id, name, email) VALUES ($1, $2, $3)",
 			requestBody.GoogleID, name, email)
 		if err != nil {
+			log.Println("Error inserting user into database:", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating user"})
 			return
 		}

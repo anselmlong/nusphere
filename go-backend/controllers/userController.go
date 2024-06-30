@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,7 @@ func TraditionalSignUp(c *gin.Context) {
 	var user models.User
 
 	if err := c.BindJSON(&user); err != nil {
+		log.Println("Error binding JSON:", err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
 		return
 	}
@@ -22,6 +24,7 @@ func TraditionalSignUp(c *gin.Context) {
 	//[]byte() - slice of byte that takes in strings
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
+		log.Println("Error hashing password:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error hashing password"})
 		return
 	}
@@ -32,6 +35,7 @@ func TraditionalSignUp(c *gin.Context) {
 	_, err = database.DB.Exec("INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
 		user.Name, user.Email, user.Password)
 	if err != nil {
+		log.Println("Error inserting user into database:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating user"})
 		return
 	}
