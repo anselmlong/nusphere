@@ -3,23 +3,24 @@
 }
 
 .header {
-  background-color: #f8f9fa;
-  padding: 20px;
-  float: left;
+  padding: 25px 40px;
+  float: inline-start;
   left: 0px;
   right: 0px;
   top: 50px;
 }
-
-.header h1 {
+.header p {
   margin: 0;
+  font: 300 20px/1.5 'Roboto', sans-serif;
 }
 
 .header button {
   background-color: #2B7A05;
+  font: 1em sans-serif;
   color: white;
   border: none;
-  padding: 10px 20px;
+  margin: 15px 0px;
+  padding: 10px 10px;
   cursor: pointer;
   border-radius: 5px;
 }

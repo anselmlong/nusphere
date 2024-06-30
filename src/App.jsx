@@ -19,14 +19,30 @@ import axios from 'axios';
 import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 
+
 function App() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
 
-  const login = useGoogleLogin({
+  const googleLogin = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error)
   });
+
+  const login = (email, password) => {
+    axios
+      .post('http://localhost:8080/users-login', { email, password })
+      .then((res) => {
+        if (res) {
+          setProfile(res);
+          console.log(res);
+          console.log('User successfully logged in:', res.name);
+        } else {
+          console.log('Response data is undefined');
+        }
+      })
+      .catch((err) => console.log(err));
+  }
 
   // log out function to log the user out of google and set the profile array to null
   const logOut = () => {
@@ -34,6 +50,9 @@ function App() {
     setUser(null);
     setProfile(null);
   };
+  // create a log in useEffect from a non-google log in
+  // and set the profile array to the response data.
+
 
   // don't touch this
   useEffect(
@@ -54,12 +73,12 @@ function App() {
               email: res.data.email,
               token: user.id_token
             })
-            .then((res) => {
-              console.log('User successfully logged in with Google:', res.data);
-            })
-            .catch((err) => {
-              console.log('Error posting Google user data:', err);
-            });
+              .then((res) => {
+                console.log('User successfully logged in with Google:', res.data);
+              })
+              .catch((err) => {
+                console.log('Error posting Google user data:', err);
+              });
           })
           .catch((err) => console.log(err));
       }
@@ -72,21 +91,21 @@ function App() {
 
   return (
     <div>
-      <ResponsiveAppBar profile={profile} login={login} logOut={logOut} />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="All" element={<LandingPage />} />
-        <Route path="Upcoming" element={<UpcomingEvents />} />
-        <Route path="My-Events" element={<MyEvents profile={profile}/>} />
-        <Route path="PostEvent" element={<PostEvent />} />
-        <Route path="EditEvent" element={<EditEvent />} />
-        <Route path="categories/:category" element={<Category />} />
-        <Route path="SearchResults" element={<SearchResults />} />
-        <Route path="events/:id" element={<EventDetails />} />
-        <Route path="Bookmarks" element={<Bookmarks />} />
-        <Route path="SignIn" element={<SignIn login={login} />} />
-        <Route path="SignUp" element={<SignUp login={login} />} />
-      </Routes>
+        <ResponsiveAppBar profile={profile} login={googleLogin} logOut={logOut} />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="All" element={<LandingPage />} />
+          <Route path="Upcoming" element={<UpcomingEvents />} />
+          <Route path="My-Events" element={<MyEvents profile={profile} />} />
+          <Route path="PostEvent" element={<PostEvent />} />
+          <Route path="EditEvent" element={<EditEvent />} />
+          <Route path="categories/:category" element={<Category />} />
+          <Route path="SearchResults" element={<SearchResults />} />
+          <Route path="events/:id" element={<EventDetails />} />
+          <Route path="Bookmarks" element={<Bookmarks />} />
+          <Route path="SignIn" element={<SignIn googleLogin={googleLogin} login={login} />} />
+          <Route path="SignUp" element={<SignUp googleLogin={googleLogin} login={login} />} />
+        </Routes>
     </div>
   );
 }

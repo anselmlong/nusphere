@@ -3,6 +3,10 @@ import Events from "../components/Events";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import "./MyEvents.css";
 
 function toTitleCase(str) {
     return str.replace(
@@ -69,20 +73,19 @@ const MyEvents = ({ profile }) => {
 
     return (
         <div>
-            <div className="events flex justify-between items-center">
-                {console.log(profile)}
-                <button id="postevent" className='bg-green-900 text-white cursor-pointer rounded' onClick={routeChange}>
-                    Post Event
-                </button>   
-                {profile &&
-                    <h1 className="flex-grow">
-                        {toTitleCase(profile.given_name)}'s Events:
+            {profile &&
+                <>
+                    <Box>
+                        <Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>{toTitleCase(profile.given_name)}'s Events: </Typography>
+                        <Button className="Button" variant="contained" onClick={routeChange} sx={{ mx: 2, backgroundColor: "green" }}>
+                            Post Event
+                        </Button>
+                    </Box>
+                    <Box display="flex" alignItems={"left"}>
                         <Events eventsData={myEvents(data)} editButton={true} deleteButton={true} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-                    </h1>
-                }
-                
-                
-            </div>
+                    </Box>
+                </>
+            }
         </div >
     );
 };

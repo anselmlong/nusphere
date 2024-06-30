@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import Events from '../components/Events';
+import { Typography } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@emotion/react';
+import Box from '@mui/material/Box';
 
 // LandingPage component
 const LandingPage = () => {
-    /* Using the useState hook to store the events data
-    The initial value of events is an empty array
-    The setEvents function is used to update the events data
-    The useEffect hook is used to fetch the events data from the server
-    The fetch function is used to make a GET request to the /api/events endpoint
-    The response is converted to JSON format using the json() method
-    The data is then stored in the events state using the setEvents function */
-    
+  /* Using the useState hook to store the events data
+  The initial value of events is an empty array
+  The setEvents function is used to update the events data
+  The useEffect hook is used to fetch the events data from the server
+  The fetch function is used to make a GET request to the /api/events endpoint
+  The response is converted to JSON format using the json() method
+  The data is then stored in the events state using the setEvents function */
+
   const [eventsData, setEvents] = useState([]);
 
   useEffect(() => {
@@ -23,9 +27,9 @@ const LandingPage = () => {
       .catch(error => console.error('Error fetching events:', error));
   }, []);
 
-  let navigate = useNavigate(); 
-  const routeChange = () =>{ 
-    let path = `../PostEvent`; 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `../PostEvent`;
     navigate(path);
   }
 
@@ -34,15 +38,37 @@ const LandingPage = () => {
   // Otherwise, will bring you to the posting page.
   return (
     <div className="landing-page">
-      <header className="header">
-        <h1>NUSphere</h1>
-        <p>All NUS events in one place.</p>
-        <button id="postevent" 
-        className='bg-green-900 text-white cursor-pointer rounded' onClick={routeChange}>Post Event</button>
-      </header>
-    <Events eventsData={eventsData} /> 
+      <Box display="inline-block">
+        <header className="header">
+          <Typography fontWeight="600" variant="h2">NUSphere</Typography>
+          <Typography variant="h6">All NUS events in one place.</Typography>
+          <button id="postevent"
+            className='bg-green-900 text-white cursor-pointer rounded' onClick={routeChange}>Post Event</button>
+        </header>
+      </Box>
+      <Box display="flex">
+        <Events eventsData={eventsData} />
+      </Box>
     </div>
   );
 };
 
 export default LandingPage;
+
+/*
+The typography object comes with 13 variants by default:
+
+h1
+h2
+h3
+h4
+h5
+h6
+subtitle1
+subtitle2
+body1
+body2
+button
+caption
+overline
+*/

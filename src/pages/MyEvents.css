@@ -1,0 +1,4 @@
+/* Increase the specificity */
+.Button:hover {
+    color: white;
+}

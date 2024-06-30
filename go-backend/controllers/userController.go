@@ -71,5 +71,5 @@ func TraditionalLogin(c *gin.Context) {
 	}
 
 	// TODO: Create and return a session or token for the user
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "name": user.Name, "email": user.Email})
 }

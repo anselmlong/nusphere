@@ -2,12 +2,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Events from "./Events";
 import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
 
 const Category = () => {
 
 	const [data, setData] = useState([]);
 	const { category } = useParams();
-	
+
 	const fetchData = () => {
 		return fetch('http://localhost:8080/events')
 			.then((res) => res.json())
@@ -32,10 +34,10 @@ const Category = () => {
 			alignItems: "centre",
 			height: "100vh",
 		}}>
-			<h1>
-				Events with {category} tag:
-			</h1>
-			<Events eventsData={returnMatchingCategory(data)} />
+			<Box display="inline-block">
+				<Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>Events with {category} tag: </Typography>
+				<Events eventsData={returnMatchingCategory(data)} />
+			</Box>
 		</div>
 	);
 };

@@ -74,7 +74,7 @@ const EditEvent = () => {
 
 	return (
 		<div className="post-event">
-			<h1>Post your event!</h1>
+			<h1>Edit your event!</h1>
 			<p>Please be as detailed as possible.</p>
 			<form onSubmit={handleSubmit}>
 				<div className="form-group">

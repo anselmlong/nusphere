@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './PostEvent.css';
-
-
+import { Typography } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 const PostEvent = () => {
-    
+
     const [eventTitle, setEventTitle] = useState('');
     const [date, setDate] = useState('');
     const [cost, setCost] = useState('');
@@ -68,13 +68,19 @@ const PostEvent = () => {
     // Render the form
     return (
         <div className="post-event">
-            <h1>Post your event!</h1>
-            <p>Please be as detailed as possible.</p>
+            <Typography fontWeight="600" variant="h3">Post your event!</Typography>
+            <Typography variant="h6">Please be as detailed as possible.</Typography>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Event Title</label>
-                    <input type="text" value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} placeholder="e.g. Orbital Briefing" required />
-                </div>
+                <TextField
+                    required
+                    id="outlined-basic"
+                    label="Event Title"
+                    variant="outlined"
+                    value={eventTitle}
+                    onChange={(e) => setEventTitle(e.target.value)}
+                    margin="normal" />
+
+    
                 <div className="form-group">
                     <label>Date</label>
                     <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />

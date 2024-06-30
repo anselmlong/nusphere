@@ -1,6 +1,8 @@
 import React from "react";
 import Events from "../components/Events";
 import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
 
 const UpcomingEvents = () => {
 
@@ -32,10 +34,10 @@ const UpcomingEvents = () => {
                 height: "100vh",
             }}
         >
-            <h1>
-                Upcoming Events:
+            <Box>
+                <Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>Upcoming Events: </Typography>
                 <Events eventsData={upcoming(data)} />
-            </h1>
+            </Box>
         </div>
     );
 };

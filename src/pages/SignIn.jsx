@@ -32,7 +32,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn({ login }) {
+export default function SignIn({ googleLogin, login }) {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
 
@@ -46,7 +46,7 @@ export default function SignIn({ login }) {
         try {
             const response = await axios.post('http://localhost:8080/users-login', { email, password });
             if (response.status === 200) {
-                login(response.data.token); // Assuming response.data.token is your auth token
+                login(email, password); // Assuming response.data.token is your auth token
                 navigate('/');
             } else {
                 setError('Invalid login credentials');
@@ -58,7 +58,7 @@ export default function SignIn({ login }) {
     };
 
     const handleGoogleLogIn = () => {
-        login();
+        googleLogin();
         navigate('/');
     };
 
