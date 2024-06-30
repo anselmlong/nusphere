@@ -19,9 +19,10 @@ const LandingPage = () => {
 
   const [eventsData, setEvents] = useState([]);
 
+  const eventsURL = 'http://localhost:8080/events';
   useEffect(() => {
     //fetch('/api/events')
-    fetch('http://localhost:8080/events')
+    fetch(eventsURL)
       .then(response => response.json())
       .then(data => setEvents(data))
       .catch(error => console.error('Error fetching events:', error));
