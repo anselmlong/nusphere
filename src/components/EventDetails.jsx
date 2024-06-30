@@ -58,7 +58,9 @@ const EventDetails = ({ editing }) => {
             </Box>
             <Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
                 <AttachMoneyIcon />
-                <Typography variant="body1" style={{ marginLeft: 4 }}>{event.price}</Typography>
+                <Typography variant="body1" style={{ marginLeft: 4 }}>
+                    {event.price === 0 ? "Free" : "$" + event.price}
+                </Typography>
             </Box>
             <Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
                 <AccessTimeIcon />

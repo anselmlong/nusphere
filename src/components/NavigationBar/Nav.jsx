@@ -18,7 +18,7 @@ import SearchBar from './SearchAppBar';
 
 // Declare names for headers and settings
 const pages = ['All', 'Upcoming'];
-const categories = ['Academic', 'Social', 'Sports', 'Career'];
+const categories = ['Academic', 'Social', 'Sports', 'Career', 'Others'];
 
 // Create a responsive app bar using MatUI
 // Don't need to touch this
