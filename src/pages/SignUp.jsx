@@ -49,7 +49,7 @@ export default function SignUp({ login }) {
         };
         console.log(payload);
 
-        axios.post('http://localhost:8080/users', payload)
+        axios.post(process.env.REACT_APP_BACKEND_URL + "/users", payload)
             .then((response) => {
                 console.log(response);
                 routeChange();

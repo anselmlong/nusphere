@@ -32,7 +32,7 @@ const EventDetails = ({ editing }) => {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:8080/events/` + id)
+        fetch(process.env.REACT_APP_BACKEND_URL + "/events" + id)
             .then(response => response.json())
             .then(data => setEvent(data))
             .catch(error => console.error('Error fetching event details:', error));

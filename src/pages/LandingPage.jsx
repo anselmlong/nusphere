@@ -21,7 +21,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     //fetch('/api/events')
-    fetch('http://localhost:8080/events')
+    fetch(process.env.REACT_APP_BACKEND_URL + "/events")
       .then(response => response.json())
       .then(data => setEvents(data))
       .catch(error => console.error('Error fetching events:', error));

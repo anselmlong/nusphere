@@ -50,7 +50,7 @@ const EditEvent = () => {
 			console.log(key, value);
 		}
 
-		axios.put('http://localhost:8080/events/${id}', formData)
+		axios.put(process.env.REACT_APP_BACKEND_URL + "/events/${id}", formData)
 			.then(response => {
 				console.log(response);
 				navigate(`/MyEvents`);
