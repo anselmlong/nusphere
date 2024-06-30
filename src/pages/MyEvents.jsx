@@ -2,6 +2,7 @@ import React from "react";
 import Events from "../components/Events";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function toTitleCase(str) {
     return str.replace(
@@ -15,11 +16,20 @@ function toTitleCase(str) {
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);
+    const [userEvents, setUserEvents] = useState([]);
 
     const fetchData = () => {
         return fetch('http://localhost:8080/events')
             .then((res) => res.json())
-            .then((d) => setData(d));
+            .then((d) => {
+                setData(d);
+                filterUserEvents(d);
+            });
+    };
+
+    const filterUserEvents = (events) => {
+        const filteredEvents = events.filter(event => event.creatorEmail === profile.email);
+        setUserEvents(filteredEvents);
     };
 
     // Fetches the data from the server 
@@ -40,6 +50,23 @@ const MyEvents = ({ profile }) => {
         navigate(path);
     }
 
+    const handleEditEvent = () => {
+        //let path = "/edit/${eventId}";
+        let path = `/EditEvent`;
+        navigate(path);
+    };
+
+    const handleDeleteEvent = (eventId) => {
+        axios.delete(`http://localhost:8080/events/${eventId}`)
+            .then(() => {
+                // After successful deletion, fetch the updated list of user events
+                fetchData();
+            })
+            .catch(error => {
+                console.error("There was an error deleting the event!", error);
+            });
+    };
+
     return (
         <div>
             <div className="events flex justify-between items-center">
@@ -50,7 +77,7 @@ const MyEvents = ({ profile }) => {
                 {profile &&
                     <h1 className="flex-grow">
                         {toTitleCase(profile.given_name)}'s Events:
-                        <Events eventsData={myEvents(data)} editButton={true} deleteButton={true} />
+                        <Events eventsData={myEvents(data)} editButton={true} deleteButton={true} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
                     </h1>
                 }
                 

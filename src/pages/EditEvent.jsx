@@ -1,13 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Events from "../components/Events";
+import axios from "axios";
 
 const EditEvent = () => {
 
 	// Find the specific event from the URL of the ID
 	const [event, setEvent] = useState(null);
 	const [searchParams] = useSearchParams();
+
 	const id = searchParams.get('id');
 
 	// Need these fields to update the event.
@@ -48,9 +50,10 @@ const EditEvent = () => {
 			console.log(key, value);
 		}
 
-		axios.post('http://localhost:8080/events', formData)
+		axios.put('http://localhost:8080/events/${id}', formData)
 			.then(response => {
 				console.log(response);
+				navigate(`/MyEvents`);
 			})
 			.catch(error => {
 				console.error('There was an error!', error);
@@ -125,7 +128,7 @@ const EditEvent = () => {
 					<label>Event Description</label>
 					<textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} placeholder="Brief description of your event." required></textarea>
 				</div>
-				<button type="submit">Submit</button>
+				<button type="submit">Update</button>
 			</form>
 		</div>
 

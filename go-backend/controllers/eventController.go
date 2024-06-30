@@ -113,8 +113,8 @@ func UpdateEvent(c *gin.Context) {
 		return
 	}
 
-	_, err := database.DB.Exec("UPDATE events SET title = $1, date = $2, description = $3, image_url = $4, type = $5, price = $6 WHERE id = $7",
-		event.Title, event.Date, event.Description, event.ImageUrl, event.Type, event.Price, id)
+	_, err := database.DB.Exec("UPDATE events SET title = $1, date = $2, description = $3, image_url = $4, type = $5, price = $6, organiser = $7, start_time = $8, end_time = $9, registration_link = $10, location = $11 WHERE id = $12",
+		event.Title, event.Date, event.Description, event.ImageUrl, event.Type, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
