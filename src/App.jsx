@@ -18,6 +18,8 @@ import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 
 function App() {
@@ -90,6 +92,8 @@ function App() {
 
 
   return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      
     <div>
         <ResponsiveAppBar profile={profile} login={googleLogin} logOut={logOut} />
         <Routes>
@@ -107,6 +111,8 @@ function App() {
           <Route path="SignUp" element={<SignUp googleLogin={googleLogin} login={login} />} />
         </Routes>
     </div>
+
+    </LocalizationProvider>
   );
 }
 

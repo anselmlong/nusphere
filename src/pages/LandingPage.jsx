@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 // LandingPage component
 const LandingPage = () => {
@@ -30,6 +31,9 @@ const LandingPage = () => {
 
   let navigate = useNavigate();
   const routeChange = () => {
+    // Check if user is logged in - if not logged in, bring to sign up page.
+    // If logged in, bring to post event page.
+    // TODO - implement this properly
     let path = `../PostEvent`;
     navigate(path);
   }
@@ -43,8 +47,7 @@ const LandingPage = () => {
         <header className="header">
           <Typography fontWeight="600" variant="h2">NUSphere</Typography>
           <Typography variant="h6">All NUS events in one place.</Typography>
-          <button id="postevent"
-            className='bg-green-900 text-white cursor-pointer rounded' onClick={routeChange}>Post Event</button>
+          <Button variant="contained" onClick={routeChange}>Post Event!</Button> 
         </header>
       </Box>
       <Box display="flex">

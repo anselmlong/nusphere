@@ -13,6 +13,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -27,12 +35,13 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const PostEvent = () => {
+    let dateObj = Date();
 
     const [eventTitle, setEventTitle] = useState('');
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(dayjs(dateObj));
     const [cost, setCost] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
     const [type, setType] = useState('');
     const [registrationLink, setRegistrationLink] = useState('');
     const [organiser, setOrganiser] = useState('');
@@ -49,18 +58,27 @@ const PostEvent = () => {
             return;
         }
 
+        const formattedDate = date.format('dddd, DD MMMM YYYY'); // Example: Monday, 01 January 2022
+        const formattedStartTime = startTime ? startTime.format('HH:mm') : ''; // Example: 14:30
+        const formattedEndTime = endTime ? endTime.format('HH:mm') : ''; // Example: 15:30
+
         const formData = new FormData();
         formData.append('eventTitle', eventTitle);
-        formData.append('date', date);
-        formData.append('cost', cost);
-        formData.append('startTime', startTime);
-        formData.append('endTime', endTime);
+        formData.append('date', formattedDate);
+        formData.append('cost', isFree ? '0' : cost);
+        formData.append('startTime', formattedStartTime);
+        formData.append('endTime', formattedEndTime);
         formData.append('type', type);
         formData.append('registrationLink', registrationLink);
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
-        formData.append('picture', picture);
+        if (picture) {
+            formData.append('picture', picture);
+        } else {
+            setPicture('');
+            formData.append('picture', '');
+        }
 
         for (let [key, value] of formData.entries()) {
             console.log(key, value);
@@ -94,24 +112,47 @@ const PostEvent = () => {
 
     // Render the form
     return (
-        <div className="post-event">
+        <Box
+            className="post-event"
+            max-width="800px"
+            margin="0 auto"
+            padding="20px"
+            font-family="Roboto, sans-serif">
             <Typography fontWeight="600" variant="h3">Post your event!</Typography>
             <Typography variant="h6">Please be as detailed as possible.</Typography>
             <form onSubmit={handleSubmit}>
-                <TextField
-                    required
-                    id="outlined-basic"
-                    label="Event Title"
-                    variant="outlined"
-                    value={eventTitle}
-                    onChange={(e) => setEventTitle(e.target.value)}
-                    margin="normal" />
+                <Box className="title-and-type" display={'flex'} sx={{ my: 2 }} alignItems={"center"} >
+                    <Box sx={{ mr: 2 }}>
+                        <TextField
+                            required
+                            id="outlined-basic"
+                            label="Event Title"
+                            variant="outlined"
+                            value={eventTitle}
+                            onChange={(e) => setEventTitle(e.target.value)}
+                            margin="normal"
+                            sx={{ width: '550px' }} />
+                    </Box>
 
-                <div className="form-group">
-                    <label>Date</label>
-                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-                </div>
+                    <Box sx={{ mt: 1, width: "100%" }}>
+                        <FormControl fullWidth >
+                            <InputLabel>Event Type</InputLabel>
+                            <Select
+                                value={type}
+                                label="Select Event Type"
+                                onChange={(e) => setType(e.target.value)}
+                                required
+                            >
+                                <MenuItem value={"Academic"}>Academic</MenuItem>
+                                <MenuItem value={"Career"}>Career</MenuItem>
+                                <MenuItem value={"Social"}>Social</MenuItem>
+                                <MenuItem value={"Sports"}>Sports</MenuItem>
+                                <MenuItem value={"Others"}>Others</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
 
+                </Box>
                 <Box display="flex">
                     <Typography variant="h6" display="flex">Is this event free?</Typography>
                     <Switch
@@ -119,7 +160,9 @@ const PostEvent = () => {
                         checked={isFree}
                         onChange={handleChange}
                         defaultChecked />
-                    {!isFree &&
+                </Box>
+                {!isFree &&
+                    <Box>
                         <TextField
                             required
                             id="outlined-basic"
@@ -128,92 +171,103 @@ const PostEvent = () => {
                             value={cost}
                             onChange={(e) => setCost(e.target.value)}
                             margin="normal" />
-                    }
-                </Box>
+                    </Box>
+                }
 
-                <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudUploadIcon />}
-                    sx={{ my: 2 }}
-                >
-                    Upload file
-                    <VisuallyHiddenInput type="file" onChange={handleImageUpload} />
-                </Button>
-
-
-                <div className="form-group">
-                    <label>Start Time</label>
-                    <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                    <label>End Time</label>
-                    <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
-                </div>
-
-                <FormControl>
-                    <InputLabel id="demo-simple-select-label">Event Type</InputLabel>
-                    <Select
-                        value={type}
-                        label="Select Event Type"
-                        onChange={(e) => setType(e.target.value)}
-                        required
+                <Box display={"flex"}>
+                    <Button
+                        component="label"
+                        role={undefined}
+                        variant="outlined"
+                        tabIndex={-1}
+                        startIcon={<CloudUploadIcon />}
+                        sx={{ my: 1 }}
                     >
-                        <MenuItem value={"Academic"}>Academic</MenuItem>
-                        <MenuItem value={"Career"}>Career</MenuItem>
-                        <MenuItem value={"Social"}>Social</MenuItem>
-                        <MenuItem value={"Sports"}>Sports</MenuItem>
-                        <MenuItem value={"Others"}>Others</MenuItem>
-                    </Select>
-                </FormControl>
-                <Box>
-                    <TextField
-                        required
-                        id="outlined-basic"
-                        label="Registration Link"
-                        variant="outlined"
-                        value={registrationLink}
-                        onChange={(e) => setRegistrationLink(e.target.value)}
-                        margin="normal" />
+                        Upload your Event Image here
+                        <VisuallyHiddenInput type="file" onChange={handleImageUpload} />
+                    </Button>
+                </Box>
+
+                <Box className="datetime" display={"flex"} justifyContent={"space-between"} sx={{ mt: 2 }}>
+                    <Box>
+                        <DatePicker 
+                            sx={{ width: '80%' }}
+                            value={date}
+                            onChange={(newDate) => setDate(newDate)}
+                            margin="normal"
+                        />
+                    </Box>
+                    <Box>
+                        <TimePicker
+                            label="Start Time"
+                            value={startTime}
+                            onChange={(newTime) => setStartTime(newTime)}
+                        />
+                    </Box>
+                    <Box sx={{ m: 2 }}>
+                        <Typography variant="body1">-</Typography>
+                    </Box>
+                    <Box>
+                        <TimePicker
+                            label="End Time"
+                            value={endTime}
+                            onChange={(newTime) => setEndTime(newTime)}
+                        />
+                    </Box>
+                </Box>
+
+
+                <Box className="bottom-three" display={"flex"} justifyContent={"space-between"}>
+                    <Box>
+                        <TextField
+                            required
+                            id="outlined-basic"
+                            label="Registration Link"
+                            variant="outlined"
+                            value={registrationLink}
+                            onChange={(e) => setRegistrationLink(e.target.value)}
+                            margin="normal" />
+                    </Box>
+
+                    <Box>
+                        <TextField
+                            required
+                            id="outlined-basic"
+                            label="Organiser"
+                            variant="outlined"
+                            value={organiser}
+                            onChange={(e) => setOrganiser(e.target.value)}
+                            margin="normal"
+                            width="50%"
+                        />
+                    </Box>
+                    <Box>
+                        <TextField
+                            required
+                            id="outlined-basic"
+                            label="Location"
+                            variant="outlined"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            margin="normal"
+                            display="flex"
+                        />
+                    </Box>
                 </Box>
                 <Box>
-                    <TextField
-                        required
-                        id="outlined-basic"
-                        label="Organiser"
-                        variant="outlined"
-                        value={organiser}
-                        onChange={(e) => setOrganiser(e.target.value)}
+                    <TextField fullWidth
+                        id="outlined-multiline-flexible"
+                        label="Event Description"
+                        width="100%"
+                        multiline
+                        value={eventDescription} onChange={(e) => setEventDescription(e.target.value)}
+                        maxRows={5}
                         margin="normal"
-                        width="50%"
-                        sx={{ mr: 5 }} />
-
-                    <TextField
-                        required
-                        id="outlined-basic"
-                        label="Location"
-                        variant="outlined"
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        margin="normal"
-                        display="flex"
                     />
                 </Box>
-
-                <TextField fullWidth
-                    id="outlined-multiline-flexible"
-                    label="Event Description"
-                    width="100%"
-                    multiline
-                    value={eventDescription} onChange={(e) => setEventDescription(e.target.value)}
-                    maxRows={5}
-                    margin="normal"
-                />
                 <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Submit</Button>
             </form>
-        </div>
+        </Box>
     );
 };
 

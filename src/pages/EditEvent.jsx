@@ -1,8 +1,23 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Events from "../components/Events";
 import axios from "axios";
+import { Button, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SellIcon from "@mui/icons-material/Sell";
+// Define a mapping of event types to colors
+const eventTypeToColor = {
+    Academic: "blue",
+    Social: "orange",
+    Sports: "red",
+    Career: "purple",
+    // Add more event types and their corresponding colors as needed
+};
+
 
 const EditEvent = () => {
 
@@ -73,65 +88,68 @@ const EditEvent = () => {
 	};
 
 	return (
-		<div className="post-event">
-			<h1>Edit your event!</h1>
-			<p>Please be as detailed as possible.</p>
-			<form onSubmit={handleSubmit}>
-				<div className="form-group">
-					<label>Event Title</label>
-					<input type="text" value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} placeholder="e.g. Orbital Briefing" required />
-				</div>
-				<div className="form-group">
-					<label>Date</label>
-					<input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-				</div>
-				<div className="form-group">
-					<label>Cost (if free, leave this blank)</label>
-					<input type="text" value={cost} onChange={(e) => setCost(e.target.value)} placeholder="e.g. $10" />
-				</div>
-				<div className="form-group">
-					<label>Picture</label>
-					<input type="file" onChange={handleImageUpload} />
-				</div>
-				<div className="form-group">
-					<label>Start Time</label>
-					<input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required />
-				</div>
-				<div className="form-group">
-					<label>End Time</label>
-					<input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
-				</div>
-				<div className="form-group">
-					<label>Event Type</label>
-					<select value={type} onChange={(e) => setType(e.target.value)} required>
-						<option value="">Select Event Type</option>
-						<option value="Academic">Academic</option>
-						<option value="Career">Career</option>
-						<option value="Social">Social</option>
-						<option value="Sports">Sports</option>
-						<option value="Others">Others</option>
-					</select>
-				</div>
-				<div className="form-group">
-					<label>Registration Link</label>
-					<input type="url" value={registrationLink} onChange={(e) => setRegistrationLink(e.target.value)} required />
-				</div>
-				<div className="form-group">
-					<label>Organiser</label>
-					<input type="text" value={organiser} onChange={(e) => setOrganiser(e.target.value)} required />
-				</div>
-				<div className="form-group">
-					<label>Location</label>
-					<input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
-				</div>
-				<div className="form-group">
-					<label>Event Description</label>
-					<textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} placeholder="Brief description of your event." required></textarea>
-				</div>
-				<button type="submit">Update</button>
-			</form>
-		</div>
+		<div className="event-details">
+		{/** Display the event title */}
+		<Typography fontWeight="fontWeightMedium" variant="h4" align="center">{event.title}</Typography>
 
+		{/** Display the event image, if available */}
+		{event.imageUrl && 
+		<Box display="flex" alignItems={"center"} justifyContent={"center"}>
+			<img 
+			src={"/img/" + event.imageUrl} alt={event.title} />
+		</Box>
+		}
+
+		{/** Display the event date*/}
+		<Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
+			<CalendarMonthIcon />
+			<Typography variant="body1" style={{ marginLeft: 4 }}>{event.date}</Typography>
+		</Box>
+
+
+		{/** Display the event time */}
+		<Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
+			<AccessTimeIcon />
+			<Typography variant="body1" style={{ marginLeft: 4 }}>{event.startTime} - {event.endTime}</Typography>
+		</Box>
+
+		{/** Display the event location */}
+		<Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
+			<LocationOnIcon />
+			<Typography variant="body1" style={{ marginLeft: 4 }}>{event.location}</Typography>
+		</Box>
+		
+		{/** Display the event organiser */}
+		<Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
+			<AccountCircleIcon />
+			<Typography variant="body1" style={{ marginLeft: 4 }}>{event.organiser}</Typography>
+		</Box>
+	
+		{/** Display the event price */}
+		<Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
+			<SellIcon />
+			<Typography variant="body1" style={{ marginLeft: 4 }}>
+				{event.price === 0 ? "Free!" : "$" + event.price}
+			</Typography>
+		</Box>
+
+		{/** Display the event description */}
+		<Box display="flex" sx={{ m: 2, alignItems: "center" }}>
+			<Typography variant="body1" style={{ marginLeft: 4 }}>{event.description}</Typography>
+		</Box>
+		
+		{/** Display the event type */}
+		<Box fontWeight="fontWeightMedium" sx={{ display: "inline-block", p: 0.5, my: 1, mx: 2, border: "2px solid gray", borderRadius: 2, alignItems: "center" }}>
+			<Typography variant="body1" sx={{ color: eventTypeToColor[event.type] || "black", fontWeight: "bold" }}>
+				{event.type}
+			</Typography>
+		</Box>
+
+		<Button fullWidth display="flex" id="postevent" variant="contained"  onClick={() => {window.location.href = event.registrationLink}} sx={{ my: 1 }} size="medium">
+			Register
+		</Button>
+		
+	</div>
 	);
 };
 
