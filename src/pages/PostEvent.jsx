@@ -84,7 +84,7 @@ const PostEvent = () => {
             console.log(key, value);
         }
 
-        axios.post('http://localhost:8080/events', formData)
+        axios.post(process.env.REACT_APP_BACKEND_URL + "/events", formData)
             .then(response => {
                 console.log(response);
             })

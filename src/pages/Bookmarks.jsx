@@ -9,7 +9,7 @@ const Bookmarks = () => {
 	const [data, setData] = useState([]);
 
 	const fetchData = () => {
-		return fetch('http://localhost:8080/events')
+		return fetch(process.env.REACT_APP_BACKEND_URL + "/events")
 			.then((res) => res.json())
 			.then((d) => setData(d));
 	};

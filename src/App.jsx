@@ -33,7 +33,7 @@ function App() {
 
   const login = (email, password) => {
     axios
-      .post('http://localhost:8080/users-login', { email, password })
+      .post(process.env.REACT_APP_BACKEND_URL + "/users-login", { email, password })
       .then((res) => {
         if (res) {
           setProfile(res);
@@ -69,7 +69,7 @@ function App() {
           })
           .then((res) => {
             setProfile(res.data);
-            axios.post('http://localhost:8080/google-users', {
+            axios.post(process.env.REACT_APP_BACKEND_URL + "/google-users", {
               google_id: res.data.id,
               name: res.data.name,
               email: res.data.email,
