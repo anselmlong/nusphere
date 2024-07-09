@@ -147,7 +147,8 @@ const EventDetails = () => {
     };
 
     const updateDetails = (updatedEvent) => {
-        axios.put(`http://localhost:8080/events/${id}`, updatedEvent)
+        axios.put(process.env.REACT_APP_BACKEND_URL + "/events/${id}", updatedEvent)
+        //axios.put(`http://localhost:8080/events/${id}`, updatedEvent)
             .then(response => {
                 console.log(response);
             })
