@@ -20,7 +20,9 @@ const LandingPage = () => {
 
   const [eventsData, setEvents] = useState([]);
 
-  const eventsURL = 'http://localhost:8080/events';
+  //const eventsURL = 'http://localhost:8080/events';
+  const eventsURL = process.env.REACT_APP_BACKEND_URL + "/events";
+
   useEffect(() => {
     //fetch('/api/events')
     fetch(eventsURL)
