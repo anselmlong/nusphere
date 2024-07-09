@@ -72,7 +72,7 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 					</div>
 					<div className="event-buttons">
 						{editButton &&
-							<Button variant="contained" onClick={() => handleEditing(event.id)} sx={{ ml: 2, mr: 1 }} size="small">
+							<Button variant="outlined" onClick={() => handleEditing(event.id)} sx={{ ml: 2, mr: 1 }} size="small">
 								Edit
 							</Button>
 						}

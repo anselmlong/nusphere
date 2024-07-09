@@ -18,6 +18,7 @@ const eventTypeToColor = {
     // Add more event types and their corresponding colors as needed
 };
 
+// OBSOLETE
 
 const EditEvent = () => {
 

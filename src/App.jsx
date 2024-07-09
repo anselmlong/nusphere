@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage';
 import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
 import PostEvent from './pages/PostEvent';
-import EditEvent from './pages/EditEvent';
+import EditEvent from './pages/categories (obsolete - see Category component)/EditEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
 import Bookmarks from './pages/Bookmarks';
