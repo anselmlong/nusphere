@@ -19,7 +19,9 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
+import AddAlertIcon from '@mui/icons-material/AddAlert';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -71,6 +73,7 @@ const EventDetails = () => {
     const [newPrice, setNewPrice] = useState(0);
     const [typeEditing, setTypeEditing] = useState(false);
     const [newType, setNewType] = useState("");
+    const [bookmarked, setBookmarked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -168,6 +171,16 @@ const EventDetails = () => {
                 console.error('There was an error!', error);
                 console.log(error.response.data);
             });
+    };
+
+    const handleBookmark = () => {
+        // Add the event to the user's bookmarks
+        alert("Event has been bookmarked! Placeholder.");
+    };
+
+    const handleAddAlert = () => {
+        // Add an alert for the event. Future
+        alert("Alert has been added! Placeholder.");
     };
 
     const exitEditing = () => {
@@ -471,6 +484,26 @@ const EventDetails = () => {
                     <Button fullWidth display="flex" id="postevent" variant="contained" onClick={() => { window.location.href = event.registrationLink }} sx={{ my: 1 }} size="medium">
                         Register
                     </Button>}
+                {/** Display bookmark add if not editing. */}
+                {!editing &&
+                    bookmarked
+                    ?
+                    <IconButton onClick={handleBookmark}>
+                        <BookmarkAddIcon />
+                    </IconButton>
+                    :
+                    <IconButton>
+                        <BeenhereIcon />
+                    </IconButton>
+                }
+                {!editing
+                    &&
+                    // Future feature - add alerts for events
+                    <IconButton onClick={handleAddAlert}>
+                        <AddAlertIcon />
+                    </IconButton>
+                }
+
                 {editing && (
                     <>
                         {!registrationLinkEditing && (
