@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './App.jsx';
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { BrowserRouter } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals.js';
 
 const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleusercontent.com";
 

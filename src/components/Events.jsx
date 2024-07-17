@@ -48,14 +48,9 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 	};
 
 	const handleDeleteEvent = (eventId) => {
-		axios.delete(process.env.REACT_APP_BACKEND_URL + "/events/${eventId}")
-			.then(() => {
-				// After successful deletion, fetch the updated list of user events
-				onDeleteEvent(eventId);
-			})
-			.catch(error => {
-				console.error("There was an error deleting the event!", error);
-			});
+		setOpen(false);
+		onDeleteEvent(eventId);
+		navigate(`/My-Events`);
 	};
 
 	return (
@@ -98,6 +93,7 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 
 					</div>
 					<div className="event-buttons">
+						<Box display={"flex"}>
 						{editButton &&
 							<Button variant="outlined" onClick={() => handleEditing(event.id)} sx={{ ml: 2, mr: 1 }} size="small">
 								Edit
@@ -126,13 +122,14 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 									</DialogContent>
 									<DialogActions>
 										<Button onClick={handleClose}>Disagree</Button>
-										<Button onClick={handleDeleteEvent(event.id)} autoFocus>
+										<Button onClick={() => handleDeleteEvent(event.id)} autoFocus>
 											Agree
 										</Button>
 									</DialogActions>
 								</Dialog>
 							</Box>
 						}
+						</Box>
 					</div>
 				</div>
 			))}

@@ -65,7 +65,7 @@ const MyEvents = ({ profile }) => {
     };
 
     const handleDeleteEvent = (eventId) => {
-        axios.delete(process.env.REACT_APP_BACKEND_URL + "/events/${eventId}")
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/events/${eventId}`)
             .then(() => {
                 // After successful deletion, fetch the updated list of user events
                 fetchData();
@@ -74,6 +74,7 @@ const MyEvents = ({ profile }) => {
                 console.error("There was an error deleting the event!", error);
             });
     };
+    
 
     return (
         <div>

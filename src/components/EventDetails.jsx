@@ -22,6 +22,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
+import { set } from 'mongoose';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -175,7 +176,17 @@ const EventDetails = () => {
 
     const handleBookmark = () => {
         // Add the event to the user's bookmarks
-        alert("Event has been bookmarked! Placeholder.");
+        axios.put(process.env.REACT_APP_BACKEND_URL + "/users/" + id, {
+            bookmarked_id: id
+        })
+        .then(response => {
+            setBookmarked(true);
+            alert("Event has been bookmarked!");
+        })
+        .catch(error => {
+            console.error('There was an error bookmarking the event!', error);
+            alert("There was an error bookmarking the event! YIXHI PLS FIX");
+        });
     };
 
     const handleAddAlert = () => {
@@ -484,25 +495,6 @@ const EventDetails = () => {
                     <Button fullWidth display="flex" id="postevent" variant="contained" onClick={() => { window.location.href = event.registrationLink }} sx={{ my: 1 }} size="medium">
                         Register
                     </Button>}
-                {/** Display bookmark add if not editing. */}
-                {!editing &&
-                    bookmarked
-                    ?
-                    <IconButton onClick={handleBookmark}>
-                        <BookmarkAddIcon />
-                    </IconButton>
-                    :
-                    <IconButton>
-                        <BeenhereIcon />
-                    </IconButton>
-                }
-                {!editing
-                    &&
-                    // Future feature - add alerts for events
-                    <IconButton onClick={handleAddAlert}>
-                        <AddAlertIcon />
-                    </IconButton>
-                }
 
                 {editing && (
                     <>
@@ -526,6 +518,29 @@ const EventDetails = () => {
                         )}
                     </>
                 )}
+                {/** Display bookmark add if not editing. */}
+                {!editing && (
+                    <>
+                        {!bookmarked &&
+                            <IconButton onClick={handleBookmark}>
+                                <BookmarkAddIcon />
+                            </IconButton>
+                        }
+                        {bookmarked &&
+                            <IconButton disabled>
+                                <BeenhereIcon />
+                            </IconButton>
+                        }
+                    </>
+
+                )}
+                {!editing
+                    &&
+                    // Future feature - add alerts for events
+                    <IconButton onClick={handleAddAlert}>
+                        <AddAlertIcon />
+                    </IconButton>
+                }
             </Box>
             {editing && (
                 <div>
