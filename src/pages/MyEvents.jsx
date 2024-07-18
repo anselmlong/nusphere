@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./MyEvents.css";
 
+
 function toTitleCase(str) {
     return str.replace(
         /\w\S*/g,
@@ -17,10 +18,13 @@ function toTitleCase(str) {
     );
 }
 
+
+
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);
     const [userEvents, setUserEvents] = useState([]);
+    
 
     const fetchData = () => {
         return fetch(process.env.REACT_APP_BACKEND_URL + "/events")
@@ -61,7 +65,7 @@ const MyEvents = ({ profile }) => {
     };
 
     const handleDeleteEvent = (eventId) => {
-        axios.delete(process.env.REACT_APP_BACKEND_URL + "/events/${eventId}")
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/events/${eventId}`)
             .then(() => {
                 // After successful deletion, fetch the updated list of user events
                 fetchData();
@@ -70,6 +74,7 @@ const MyEvents = ({ profile }) => {
                 console.error("There was an error deleting the event!", error);
             });
     };
+    
 
     return (
         <div>

@@ -117,11 +117,13 @@ const PostEvent = () => {
             max-width="800px"
             margin="0 auto"
             padding="20px"
-            font-family="Roboto, sans-serif">
+            font-family="Roboto, sans-serif"
+            data-testid="post-event-form"
+        >
             <Typography fontWeight="600" variant="h3">Post your event!</Typography>
             <Typography variant="h6">Please be as detailed as possible.</Typography>
-            <form onSubmit={handleSubmit}>
-                <Box className="title-and-type" display={'flex'} sx={{ my: 2 }} alignItems={"center"} >
+            <form onSubmit={handleSubmit} data-testid="event-form">
+                <Box className="title-and-type" display={'flex'} sx={{ my: 2 }} alignItems={"center"} data-testid="title-and-type">
                     <Box sx={{ mr: 2 }}>
                         <TextField
                             required
@@ -131,7 +133,9 @@ const PostEvent = () => {
                             value={eventTitle}
                             onChange={(e) => setEventTitle(e.target.value)}
                             margin="normal"
-                            sx={{ width: '550px' }} />
+                            sx={{ width: '550px' }}
+                            data-testid="event-title-input"
+                        />
                     </Box>
 
                     <Box sx={{ mt: 1, width: "100%" }}>
@@ -142,6 +146,7 @@ const PostEvent = () => {
                                 label="Select Event Type"
                                 onChange={(e) => setType(e.target.value)}
                                 required
+                                data-testid="event-type-select"
                             >
                                 <MenuItem value={"Academic"}>Academic</MenuItem>
                                 <MenuItem value={"Career"}>Career</MenuItem>
@@ -153,16 +158,18 @@ const PostEvent = () => {
                     </Box>
 
                 </Box>
-                <Box display="flex">
+                <Box display="flex" data-testid="is-free-switch">
                     <Typography variant="h6" display="flex">Is this event free?</Typography>
                     <Switch
                         display="flex"
                         checked={isFree}
                         onChange={handleChange}
-                        defaultChecked />
+                        defaultChecked
+                        data-testid="is-free-switch-input"
+                    />
                 </Box>
                 {!isFree &&
-                    <Box>
+                    <Box data-testid="cost-input">
                         <TextField
                             required
                             id="outlined-basic"
@@ -170,11 +177,13 @@ const PostEvent = () => {
                             variant="outlined"
                             value={cost}
                             onChange={(e) => setCost(e.target.value)}
-                            margin="normal" />
+                            margin="normal"
+                            data-testid="cost-input"
+                        />
                     </Box>
                 }
 
-                <Box display={"flex"}>
+                <Box display={"flex"} data-testid="image-upload">
                     <Button
                         component="label"
                         role={undefined}
@@ -182,19 +191,21 @@ const PostEvent = () => {
                         tabIndex={-1}
                         startIcon={<CloudUploadIcon />}
                         sx={{ my: 1 }}
+                        data-testid="upload-button"
                     >
                         Upload your Event Image here
-                        <VisuallyHiddenInput type="file" onChange={handleImageUpload} />
+                        <VisuallyHiddenInput type="file" onChange={handleImageUpload} data-testid="image-upload-input" />
                     </Button>
                 </Box>
 
-                <Box className="datetime" display={"flex"} justifyContent={"space-between"} sx={{ mt: 2 }}>
+                <Box className="datetime" display={"flex"} justifyContent={"space-between"} sx={{ mt: 2 }} data-testid="datetime-section">
                     <Box>
                         <DatePicker 
                             sx={{ width: '80%' }}
                             value={date}
                             onChange={(newDate) => setDate(newDate)}
                             margin="normal"
+                            data-testid="date-picker"
                         />
                     </Box>
                     <Box>
@@ -202,6 +213,7 @@ const PostEvent = () => {
                             label="Start Time"
                             value={startTime}
                             onChange={(newTime) => setStartTime(newTime)}
+                            data-testid="start-time-picker"
                         />
                     </Box>
                     <Box sx={{ m: 2 }}>
@@ -212,12 +224,13 @@ const PostEvent = () => {
                             label="End Time"
                             value={endTime}
                             onChange={(newTime) => setEndTime(newTime)}
+                            data-testid="end-time-picker"
                         />
                     </Box>
                 </Box>
 
 
-                <Box className="bottom-three" display={"flex"} justifyContent={"space-between"}>
+                <Box className="bottom-three" display={"flex"} justifyContent={"space-between"} data-testid="bottom-three-section">
                     <Box>
                         <TextField
                             required
@@ -226,7 +239,9 @@ const PostEvent = () => {
                             variant="outlined"
                             value={registrationLink}
                             onChange={(e) => setRegistrationLink(e.target.value)}
-                            margin="normal" />
+                            margin="normal"
+                            data-testid="registration-link-input"
+                        />
                     </Box>
 
                     <Box>
@@ -239,6 +254,7 @@ const PostEvent = () => {
                             onChange={(e) => setOrganiser(e.target.value)}
                             margin="normal"
                             width="50%"
+                            data-testid="organiser-input"
                         />
                     </Box>
                     <Box>
@@ -251,10 +267,11 @@ const PostEvent = () => {
                             onChange={(e) => setLocation(e.target.value)}
                             margin="normal"
                             display="flex"
+                            data-testid="location-input"
                         />
                     </Box>
                 </Box>
-                <Box>
+                <Box data-testid="event-description-input">
                     <TextField fullWidth
                         id="outlined-multiline-flexible"
                         label="Event Description"
@@ -263,9 +280,10 @@ const PostEvent = () => {
                         value={eventDescription} onChange={(e) => setEventDescription(e.target.value)}
                         maxRows={5}
                         margin="normal"
+                        data-testid="event-description-input"
                     />
                 </Box>
-                <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Submit</Button>
+                <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }} data-testid="submit-button">Submit</Button>
             </form>
         </Box>
     );

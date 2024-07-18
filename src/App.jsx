@@ -4,7 +4,6 @@ import LandingPage from './pages/LandingPage';
 import UpcomingEvents from './pages/UpcomingEvents';
 import MyEvents from './pages/MyEvents';
 import PostEvent from './pages/PostEvent';
-import EditEvent from './pages/EditEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
 import Bookmarks from './pages/Bookmarks';
@@ -20,7 +19,6 @@ import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-
 
 function App() {
   const [user, setUser] = useState(null);
@@ -92,26 +90,24 @@ function App() {
 
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      
-    <div>
-        <ResponsiveAppBar profile={profile} login={googleLogin} logOut={logOut} />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="All" element={<LandingPage />} />
-          <Route path="Upcoming" element={<UpcomingEvents />} />
-          <Route path="My-Events" element={<MyEvents profile={profile} />} />
-          <Route path="PostEvent" element={<PostEvent />} />
-          <Route path="EditEvent" element={<EditEvent />} />
-          <Route path="categories/:category" element={<Category />} />
-          <Route path="SearchResults" element={<SearchResults />} />
-          <Route path="events/:id" element={<EventDetails />} />
-          <Route path="Bookmarks" element={<Bookmarks />} />
-          <Route path="SignIn" element={<SignIn googleLogin={googleLogin} login={login} />} />
-          <Route path="SignUp" element={<SignUp googleLogin={googleLogin} login={login} />} />
-        </Routes>
-    </div>
 
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <div>
+          <ResponsiveAppBar profile={profile} login={googleLogin} logOut={logOut} />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="All" element={<LandingPage />} />
+            <Route path="Upcoming" element={<UpcomingEvents />} />
+            <Route path="My-Events" element={<MyEvents profile={profile} />} />
+            <Route path="PostEvent" element={<PostEvent />} />
+            <Route path="categories/:category" element={<Category />} />
+            <Route path="SearchResults" element={<SearchResults />} />
+            <Route path="events/:id" element={<EventDetails />} />
+            <Route path="Bookmarks" element={<Bookmarks />} />
+            <Route path="SignIn" element={<SignIn googleLogin={googleLogin} login={login} />} />
+            <Route path="SignUp" element={<SignUp googleLogin={googleLogin} login={login} />} />
+          </Routes>
+        </div>
     </LocalizationProvider>
   );
 }

@@ -18,8 +18,11 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
+import AddAlertIcon from '@mui/icons-material/AddAlert';
+import { set } from 'mongoose';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -44,6 +47,7 @@ const eventTypeToColor = {
 
 
 const EventDetails = () => {
+    let dateObj = Date();
     const { id } = useParams(); // Get the event ID from the URL
     const location = useLocation(); // Get the location object
     const editing = location.state?.editing || false;
@@ -51,8 +55,8 @@ const EventDetails = () => {
     const [titleEditing, setTitleEditing] = useState(false);
     const [newTitle, setNewTitle] = useState("");
     const [dateEditing, setDateEditing] = useState(false);
-    const [date, setDate] = useState(null);
-    const [newDate, setNewDate] = useState("");
+    const [date, setDate] = useState(dayjs(dateObj));
+    const [newDate, setNewDate] = useState(dayjs(dateObj));
     const [imageEditing, setImageEditing] = useState(false);
     const [newImage, setNewImage] = useState(null);
     const [timeEditing, setTimeEditing] = useState(false);
@@ -68,6 +72,9 @@ const EventDetails = () => {
     const [newRegistrationLink, setNewRegistrationLink] = useState("");
     const [priceEditing, setPriceEditing] = useState(false);
     const [newPrice, setNewPrice] = useState(0);
+    const [typeEditing, setTypeEditing] = useState(false);
+    const [newType, setNewType] = useState("");
+    const [bookmarked, setBookmarked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -87,7 +94,8 @@ const EventDetails = () => {
 
     const handleDateEdit = () => {
         setDateEditing(false);
-        const updatedEvent = { ...event, date: newDate };
+        const formattedDate = newDate.format('dddd, DD MMMM YYYY'); // Example: Monday, 01 January 2022
+        const updatedEvent = { ...event, date: formattedDate };
         setEvent(updatedEvent);
         updateDetails(updatedEvent);
     };
@@ -105,7 +113,9 @@ const EventDetails = () => {
 
     const handleTimeEdit = () => {
         setTimeEditing(false);
-        const updatedEvent = { ...event, startTime: newStartTime.format('HH:mm'), endTime: newEndTime.format('HH:mm') };
+        const formattedStartTime = newStartTime ? newStartTime.format('HH:mm') : ''; // Example: 14:30
+        const formattedEndTime = newEndTime ? newEndTime.format('HH:mm') : ''; // Example: 15:30
+        const updatedEvent = { ...event, startTime: formattedStartTime, endTime: formattedEndTime };
         setEvent(updatedEvent);
         updateDetails(updatedEvent);
     };
@@ -146,9 +156,17 @@ const EventDetails = () => {
         updateDetails(updatedEvent);
     };
 
+    const handleTypeEdit = () => {
+        setTypeEditing(false);
+        const updatedEvent = { ...event, type: newType };
+        setEvent(updatedEvent);
+        updateDetails(updatedEvent);
+    };
+
     const updateDetails = (updatedEvent) => {
-        axios.put(process.env.REACT_APP_BACKEND_URL + "/events/${id}", updatedEvent)
-        //axios.put(`http://localhost:8080/events/${id}`, updatedEvent)
+
+        axios.put(process.env.REACT_APP_BACKEND_URL + "/events/" + id, updatedEvent)
+
             .then(response => {
                 console.log(response);
             })
@@ -156,7 +174,26 @@ const EventDetails = () => {
                 console.error('There was an error!', error);
                 console.log(error.response.data);
             });
-        exitEditing();
+    };
+
+    const handleBookmark = () => {
+        // Add the event to the user's bookmarks
+        axios.put(process.env.REACT_APP_BACKEND_URL + "/users/" + id, {
+            bookmarked_id: id
+        })
+        .then(response => {
+            setBookmarked(true);
+            alert("Event has been bookmarked!");
+        })
+        .catch(error => {
+            console.error('There was an error bookmarking the event!', error);
+            alert("There was an error bookmarking the event! YIXHI PLS FIX");
+        });
+    };
+
+    const handleAddAlert = () => {
+        // Add an alert for the event. Future
+        alert("Alert has been added! Placeholder.");
     };
 
     const exitEditing = () => {
@@ -251,7 +288,7 @@ const EventDetails = () => {
                                 <DatePicker
                                     sx={{ width: '80%' }}
                                     value={date}
-                                    onChange={(newDate) => setDate(newDate)}
+                                    onChange={(newDate) => setNewDate(newDate)}
                                     margin="normal"
                                 />
                                 <IconButton onClick={handleDateEdit}>
@@ -278,12 +315,14 @@ const EventDetails = () => {
                         {timeEditing && (
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <TimePicker
+                                    sx={{ maxWidth: '30%', mx: 1 }}
                                     label="Start Time"
                                     value={newStartTime || dayjs(event.startTime, 'HH:mm')}
                                     onChange={(newTime) => setNewStartTime(newTime)}
                                     renderInput={(params) => <TextField {...params} sx={{ marginRight: 2 }} />}
                                 />
                                 <TimePicker
+                                    sx={{ maxWidth: '30%', mx: 1 }}
                                     label="End Time"
                                     value={newEndTime || dayjs(event.endTime, 'HH:mm')}
                                     onChange={(newTime) => setNewEndTime(newTime)}
@@ -411,10 +450,44 @@ const EventDetails = () => {
             </Box>
 
             {/** Display the event type */}
-            <Box fontWeight="fontWeightMedium" sx={{ display: "inline-block", p: 0.5, my: 1, mx: 2, border: "2px solid gray", borderRadius: 2, alignItems: "center" }}>
-                <Typography variant="body1" sx={{ color: eventTypeToColor[event.type] || "black", fontWeight: "bold" }}>
-                    {event.type}
-                </Typography>
+            <Box display="flex" sx={{ alignItems: "center" }}>
+                {!typeEditing && (
+                    <Box fontWeight="fontWeightMedium" sx={{ display: "inline-block", p: 0.5, my: 1, mx: 2, border: "2px solid gray", borderRadius: 2, alignItems: "center" }}>
+                        <Typography fontWeight="fontWeightMedium" variant="body1" sx={{ color: eventTypeToColor[event.type] || "black", fontWeight: "bold" }}>
+                            {event.type}
+                        </Typography>
+                    </Box>
+                )}
+                {editing && (
+                    <>
+                        {!typeEditing && (
+                            <IconButton onClick={() => setTypeEditing(true)}>
+                                <EditIcon />
+                            </IconButton>
+                        )}
+                        {typeEditing && (
+                            <div style={{ display: 'flex', alignItems: 'center', width: "30%" }}>
+                                <FormControl fullWidth>
+                                    <InputLabel>Event Type</InputLabel>
+                                    <Select
+                                        value={newType}
+                                        label="Event Type"
+                                        onChange={(e) => setNewType(e.target.value)}
+                                    >
+                                        <MenuItem value={"Academic"}>Academic</MenuItem>
+                                        <MenuItem value={"Career"}>Career</MenuItem>
+                                        <MenuItem value={"Social"}>Social</MenuItem>
+                                        <MenuItem value={"Sports"}>Sports</MenuItem>
+                                        <MenuItem value={"Others"}>Others</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <IconButton onClick={handleTypeEdit}>
+                                    <DoneIcon />
+                                </IconButton>
+                            </div>
+                        )}
+                    </>
+                )}
             </Box>
 
 
@@ -424,6 +497,7 @@ const EventDetails = () => {
                     <Button fullWidth display="flex" id="postevent" variant="contained" onClick={() => { window.location.href = event.registrationLink }} sx={{ my: 1 }} size="medium">
                         Register
                     </Button>}
+
                 {editing && (
                     <>
                         {!registrationLinkEditing && (
@@ -446,6 +520,29 @@ const EventDetails = () => {
                         )}
                     </>
                 )}
+                {/** Display bookmark add if not editing. */}
+                {!editing && (
+                    <>
+                        {!bookmarked &&
+                            <IconButton onClick={handleBookmark}>
+                                <BookmarkAddIcon />
+                            </IconButton>
+                        }
+                        {bookmarked &&
+                            <IconButton disabled>
+                                <BeenhereIcon />
+                            </IconButton>
+                        }
+                    </>
+
+                )}
+                {!editing
+                    &&
+                    // Future feature - add alerts for events
+                    <IconButton onClick={handleAddAlert}>
+                        <AddAlertIcon />
+                    </IconButton>
+                }
             </Box>
             {editing && (
                 <div>

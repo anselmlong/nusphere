@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import Events from '../components/Events';
 import { Typography } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
@@ -41,6 +39,8 @@ const LandingPage = () => {
     let path = `../PostEvent`;
     navigate(path);
   }
+
+  
 
   // Returns the landing page, with title text in h1, and description text in p.
   // Also includes a button to post an event. This should bring you to the log in page if you are not logged in.

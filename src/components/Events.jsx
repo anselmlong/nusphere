@@ -7,6 +7,12 @@ import Box from '@mui/material/Box';
 import './Events.css';
 import { Typography } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 
 // Define a mapping of event types to colors
 const eventTypeToColor = {
@@ -21,7 +27,17 @@ const eventTypeToColor = {
 const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEvent }) => {
 	let navigate = useNavigate();
 	const [editing, setEditing] = useState(false);
+	const [open, setOpen] = React.useState(false);
 
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	// Move to event details
 	const handleEventClick = (id) => {
 		navigate(`/events/${id}`);
 	};
@@ -29,6 +45,12 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 	const handleEditing = (id) => {
 		setEditing(true);
 		navigate(`/events/${id}`, { state: { editing: true } }); // Pass editing state
+	};
+
+	const handleDeleteEvent = (eventId) => {
+		setOpen(false);
+		onDeleteEvent(eventId);
+		navigate(`/My-Events`);
 	};
 
 	return (
@@ -68,19 +90,46 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 								{event.price > 0 ? "$" + event.price : "Free"}
 							</Typography>
 						</Box>
-						
+
 					</div>
 					<div className="event-buttons">
+						<Box display={"flex"}>
 						{editButton &&
-							<Button variant="contained" onClick={() => handleEditing(event.id)} sx={{ ml: 2, mr: 1 }} size="small">
+							<Button variant="outlined" onClick={() => handleEditing(event.id)} sx={{ ml: 2, mr: 1 }} size="small">
 								Edit
 							</Button>
 						}
 						{deleteButton &&
-							<Button variant="outlined" onClick={() => onDeleteEvent(event.id)} sx={{ mx: 1 }} color="error" size="small" >
-								Delete
-							</Button>
+							<Box>
+								<Button variant="outlined" onClick={handleClickOpen} sx={{ mx: 1 }} color="error" size="small" >
+									Delete
+								</Button>
+
+								<Dialog
+									open={open}
+									onClose={handleClose}
+									aria-labelledby="alert-dialog-title"
+									aria-describedby="alert-dialog-description"
+								>
+									<DialogTitle id="alert-dialog-title">
+										{"Delete event?"}
+									</DialogTitle>
+
+									<DialogContent>
+										<DialogContentText id="alert-dialog-description">
+											This cannot be undone. Be very sure!
+										</DialogContentText>
+									</DialogContent>
+									<DialogActions>
+										<Button onClick={handleClose}>Disagree</Button>
+										<Button onClick={() => handleDeleteEvent(event.id)} autoFocus>
+											Agree
+										</Button>
+									</DialogActions>
+								</Dialog>
+							</Box>
 						}
+						</Box>
 					</div>
 				</div>
 			))}
