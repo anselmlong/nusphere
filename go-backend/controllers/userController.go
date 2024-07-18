@@ -3,7 +3,9 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 
@@ -50,6 +52,14 @@ func TraditionalLogin(c *gin.Context) {
 	}
 	var user models.User
 
+	var jwtKey = []byte("nusphere")
+
+	type Claims struct {
+		UserID string `json:"user_id"`
+		Email  string `json:"email"`
+		jwt.StandardClaims
+	}
+
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
 		return
@@ -70,6 +80,18 @@ func TraditionalLogin(c *gin.Context) {
 		return
 	}
 
-	// TODO: Create and return a session or token for the user
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "name": user.Name, "email": user.Email})
+	// Create JWT token
+	expirationTime := time.Now().Add(24 * time.Hour)
+	claims := &Claims{
+		UserID: user.ID,
+		Email:  user.Email,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "name": user.Name, "email": user.Email, "token": tokenString})
 }
