@@ -7,8 +7,8 @@ import PostEvent from './pages/PostEvent';
 import EventDetails from './components/EventDetails';
 import ResponsiveAppBar from './components/NavigationBar/Nav';
 import Bookmarks from './pages/Bookmarks';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import Register from './pages/Register';
 // google stuff
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 // React stuff
@@ -29,6 +29,15 @@ function App() {
     onError: (error) => console.log('Login Failed:', error)
   });
 
+  // log out function to log the user out of google and set the profile array to null
+  const logOut = () => {
+    googleLogout();
+    setUser(null);
+    setProfile(null);
+  };
+  // create a log in useEffect from a non-google log in
+  // and set the profile array to the response data.
+  {/**
   const login = (email, password) => {
     axios
       .post(process.env.REACT_APP_BACKEND_URL + "/users-login", { email, password })
@@ -43,15 +52,7 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
-  // log out function to log the user out of google and set the profile array to null
-  const logOut = () => {
-    googleLogout();
-    setUser(null);
-    setProfile(null);
-  };
-  // create a log in useEffect from a non-google log in
-  // and set the profile array to the response data.
+  */}
 
 
   // don't touch this
@@ -104,8 +105,8 @@ function App() {
             <Route path="SearchResults" element={<SearchResults />} />
             <Route path="events/:id" element={<EventDetails />} />
             <Route path="Bookmarks" element={<Bookmarks />} />
-            <Route path="SignIn" element={<SignIn googleLogin={googleLogin} login={login} />} />
-            <Route path="SignUp" element={<SignUp googleLogin={googleLogin} login={login} />} />
+            <Route path="Login" element={<Login googleLogin={googleLogin} />} />
+            <Route path="Register" element={<Register googleLogin={googleLogin}  />} />
           </Routes>
         </div>
     </LocalizationProvider>

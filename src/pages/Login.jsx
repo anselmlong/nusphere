@@ -13,17 +13,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import axios from 'axios';
-import { useReducer } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthProvider';
+
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://nusphere.vercel.app">
-                NUSphere
-            </Link>{' '}
+            {'Copyright © NUSphere '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -31,10 +29,31 @@ function Copyright(props) {
 }
 
 const defaultTheme = createTheme();
+const LOGIN_URL = '/users-login';
 
-export default function SignIn({ googleLogin, login }) {
+
+
+export default function Login({ googleLogin, login }) {
+
+    const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
+
+    const userRef = useRef();
+    const errRef = useRef();
+
+    const [email, setEmail] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        // userRef.current.focus();
+    }, [])
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [email, pwd])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,16 +63,36 @@ export default function SignIn({ googleLogin, login }) {
         const password = data.get('password');
 
         try {
-            const response = await axios.post(process.env.REACT_APP_BACKEND_URL + "/users-login", { email, password });
+            const response = await axios.post(process.env.REACT_APP_BACKEND_URL + LOGIN_URL,
+                JSON.stringify({ email, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
             if (response.status === 200) {
-                login(email, password); // Assuming response.data.token is your auth token
                 navigate('/');
             } else {
                 setError('Invalid login credentials');
             }
-        } catch (error) {
-            console.error(error);
-            setError('An error occurred. Please try again.');
+            console.log(JSON.stringify(response?.data));
+            //console.log(JSON.stringify(response));
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            setEmail('');
+            setPwd('');
+            setSuccess(true);
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current.focus();
         }
     };
 
@@ -78,8 +117,9 @@ export default function SignIn({ googleLogin, login }) {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Log In
                     </Typography>
+
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
@@ -90,6 +130,8 @@ export default function SignIn({ googleLogin, login }) {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <TextField
                             margin="normal"
@@ -100,6 +142,8 @@ export default function SignIn({ googleLogin, login }) {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={pwd}
+                            onChange={(e) => setPwd(e.target.value)}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -122,14 +166,9 @@ export default function SignIn({ googleLogin, login }) {
                         >
                             Log In with Google 🚀
                         </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password? Too bad.
-                                </Link>
-                            </Grid>
+                        <Grid container justifyContent={"center"}>
                             <Grid item>
-                                <Link href="/SignUp" variant="body2">
+                                <Link href="/Register" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

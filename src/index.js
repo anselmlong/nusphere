@@ -5,6 +5,7 @@ import App from './App.jsx';
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals.js';
+import { AuthProvider } from './context/AuthProvider.js';
 
 const CLIENT_ID = "752550756966-kgm3afqg199bjpi4mec0hq02tg875i97.apps.googleusercontent.com";
 
@@ -13,7 +14,9 @@ root.render(
   <GoogleOAuthProvider clientId={CLIENT_ID}>
     <React.StrictMode>
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </React.StrictMode>,
   </GoogleOAuthProvider>
