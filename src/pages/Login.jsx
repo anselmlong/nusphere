@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useRef, useState, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
 
@@ -59,40 +59,37 @@ export default function Login({ googleLogin, login }) {
         event.preventDefault();
         const form = event.currentTarget;
         const data = new FormData(form);
-        const email = data.get('email');
-        const password = data.get('password');
+        const password = pwd;
 
         try {
-            const response = await axios.post(process.env.REACT_APP_BACKEND_URL + LOGIN_URL,
-                JSON.stringify({ email, pwd }),
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ email, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
-            if (response.status === 200) {
-                navigate('/');
-            } else {
-                setError('Invalid login credentials');
-            }
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
+            console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
+            setAuth({ email, pwd, roles, accessToken });
             setEmail('');
             setPwd('');
             setSuccess(true);
+            if (success) {
+                navigate('/');
+            }
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
                 setErrMsg('Missing Username or Password');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Wrong username or password.');
             } else {
                 setErrMsg('Login Failed');
             }
-            errRef.current.focus();
         }
     };
 
@@ -149,7 +146,9 @@ export default function Login({ googleLogin, login }) {
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
-                        {error && <Typography color="error">{error}</Typography>}
+                        <Typography variant='body1' ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive" alignContent={"center"}>
+                            {errMsg}
+                        </Typography>
                         <Button
                             type="submit"
                             fullWidth

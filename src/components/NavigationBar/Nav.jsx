@@ -61,7 +61,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
 
   const handleLogIn = () => {
     setAnchorElUser(null);
-    const path = `Register`;
+    const path = `Login`;
     navigate(path);
   }
 

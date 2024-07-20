@@ -4,6 +4,7 @@ import (
 	"go-backend/database"
 	"go-backend/routes"
 	"log"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,16 @@ func main() {
 	router := gin.Default()
 
 	// Enable CORS - for Frontend & Backend on different domains to communicate
-	router.Use(cors.Default())
+	// CORS configuration
+	corsConfig := cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // Frontend URL
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}
+	router.Use(cors.New(corsConfig))
 
 	// Initialise routes
 	routes.InitialiseRoutes(router)
