@@ -12,11 +12,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
-import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../context/AuthProvider';
-
+import { useRef, useState, useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Alert } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 function Copyright(props) {
     return (
@@ -31,34 +32,34 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 const LOGIN_URL = '/users-login';
 
+export default function Login({ googleLogin, profile, setProfile }) {
 
+    const { setAuth } = useAuth();
 
-export default function Login({ googleLogin, login }) {
-
-    const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [error, setError] = useState(null);
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const userRef = useRef();
     const errRef = useRef();
 
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
-    const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
-
-    useEffect(() => {
-        // userRef.current.focus();
-    }, [])
+    const [errMsg, setErrMsg] = useState(''); 
 
     useEffect(() => {
         setErrMsg('');
     }, [email, pwd])
 
+    useEffect(() => {
+        if (profile) {
+            navigate(from, { replace: true, state: { profile: profile } });
+            console.log("Email: " + profile.email, "Name: " + profile.name, "Token: " + profile.token, "ID: " + profile.id);
+        }
+    }, [profile, navigate, from]);
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const form = event.currentTarget;
-        const data = new FormData(form);
         const password = pwd;
 
         try {
@@ -71,15 +72,14 @@ export default function Login({ googleLogin, login }) {
             );
             console.log(JSON.stringify(response?.data));
             console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ email, pwd, roles, accessToken });
+            const accessToken = response?.data?.token;
+            setAuth({ email, pwd, accessToken });
+            console.log(accessToken);
+            console.log(email);
+            console.log(pwd);
             setEmail('');
             setPwd('');
-            setSuccess(true);
-            if (success) {
-                navigate('/');
-            }
+            setProfile(response?.data);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

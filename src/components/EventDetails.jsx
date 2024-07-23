@@ -64,8 +64,8 @@ const EventDetails = () => {
     const [newEndTime, setNewEndTime] = useState(null);
     const [locationEditing, setLocationEditing] = useState(false);
     const [newLocation, setNewLocation] = useState("");
-    const [organizerEditing, setOrganizerEditing] = useState(false);
-    const [newOrganizer, setNewOrganizer] = useState("");
+    const [organiserEditing, setOrganiserEditing] = useState(false);
+    const [newOrganiser, setNewOrganiser] = useState("");
     const [descriptionEditing, setDescriptionEditing] = useState(false);
     const [newDescription, setNewDescription] = useState("");
     const [registrationLinkEditing, setRegistrationLinkEditing] = useState(false);
@@ -127,9 +127,9 @@ const EventDetails = () => {
         updateDetails(updatedEvent);
     };
 
-    const handleOrganizerEdit = () => {
-        setOrganizerEditing(false);
-        const updatedEvent = { ...event, organizer: newOrganizer };
+    const handleOrganiserEdit = () => {
+        setOrganiserEditing(false);
+        const updatedEvent = { ...event, organiser: newOrganiser };
         setEvent(updatedEvent);
         updateDetails(updatedEvent);
     };
@@ -181,14 +181,14 @@ const EventDetails = () => {
         axios.put(process.env.REACT_APP_BACKEND_URL + "/users/" + id, {
             bookmarked_id: id
         })
-        .then(response => {
-            setBookmarked(true);
-            alert("Event has been bookmarked!");
-        })
-        .catch(error => {
-            console.error('There was an error bookmarking the event!', error);
-            alert("There was an error bookmarking the event! YIXHI PLS FIX");
-        });
+            .then(response => {
+                setBookmarked(true);
+                alert("Event has been bookmarked!");
+            })
+            .catch(error => {
+                console.error('There was an error bookmarking the event!', error);
+                alert("There was an error bookmarking the event! YIXHI PLS FIX");
+            });
     };
 
     const handleAddAlert = () => {
@@ -304,13 +304,16 @@ const EventDetails = () => {
             {/** Display the event time */}
             <Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
                 <AccessTimeIcon />
-                {!timeEditing && <Typography variant="body1" style={{ marginLeft: 4 }}>{event.startTime} - {event.endTime}</Typography>}
+                {!timeEditing &&
+                    <Typography variant="body1" style={{ marginLeft: 4 }}>
+                        {dayjs(event.startTime).format('HH:mm')} - {dayjs(event.endTime).format('HH:mm')}
+                    </Typography>}
                 {editing && (
                     <>
                         {!timeEditing && (
                             <IconButton onClick={() => setTimeEditing(true)}>
                                 <EditIcon />
-                            </IconButton>
+                        </IconButton>
                         )}
                         {timeEditing && (
                             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -368,23 +371,23 @@ const EventDetails = () => {
             {/** Display the event organiser */}
             <Box display="flex" sx={{ mt: 1, alignItems: "center" }}>
                 <AccountCircleIcon />
-                {!organizerEditing && <Typography variant="body1" style={{ marginLeft: 4 }}>{event.organizer}</Typography>}
+                {!organiserEditing && <Typography variant="body1" style={{ marginLeft: 4 }}>{event.organiser}</Typography>}
                 {editing && (
                     <>
-                        {!organizerEditing && (
-                            <IconButton onClick={() => setOrganizerEditing(true)}>
+                        {!organiserEditing && (
+                            <IconButton onClick={() => setOrganiserEditing(true)}>
                                 <EditIcon />
                             </IconButton>
                         )}
-                        {organizerEditing && (
+                        {organiserEditing && (
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <TextField
                                     type="text"
                                     size='small'
-                                    defaultValue={event.organizer}
-                                    onChange={(e) => setNewOrganizer(e.target.value)}
+                                    defaultValue={event.organiser}
+                                    onChange={(e) => setNewOrganiser(e.target.value)}
                                 />
-                                <IconButton onClick={handleOrganizerEdit}>
+                                <IconButton onClick={handleOrganiserEdit}>
                                     <DoneIcon />
                                 </IconButton>
                             </div>

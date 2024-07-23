@@ -93,5 +93,13 @@ func TraditionalLogin(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "name": user.Name, "email": user.Email, "token": tokenString})
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login successful",
+		"name":    user.Name,
+		"email":   user.Email,
+		"token":   tokenString,
+		"id":      user.ID,
+		"picture": user.Picture,
+	})
+
 }

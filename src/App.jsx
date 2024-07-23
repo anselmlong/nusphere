@@ -19,10 +19,14 @@ import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import RequireAuth from './components/RequireAuth.js';
+import useAuth from './hooks/useAuth.js';
 
 function App() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const { setAuth } = useAuth();
+
 
   const googleLogin = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
@@ -68,6 +72,8 @@ function App() {
           })
           .then((res) => {
             setProfile(res.data);
+            setAuth(res.data);
+            console.log(res.data);
             axios.post(process.env.REACT_APP_BACKEND_URL + "/google-users", {
               google_id: res.data.id,
               name: res.data.name,
@@ -91,24 +97,27 @@ function App() {
 
 
   return (
-
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div>
-          <ResponsiveAppBar profile={profile} login={googleLogin} logOut={logOut} />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="All" element={<LandingPage />} />
-            <Route path="Upcoming" element={<UpcomingEvents />} />
-            <Route path="My-Events" element={<MyEvents profile={profile} />} />
-            <Route path="PostEvent" element={<PostEvent />} />
-            <Route path="categories/:category" element={<Category />} />
-            <Route path="SearchResults" element={<SearchResults />} />
-            <Route path="events/:id" element={<EventDetails />} />
-            <Route path="Bookmarks" element={<Bookmarks />} />
-            <Route path="Login" element={<Login googleLogin={googleLogin} />} />
-            <Route path="Register" element={<Register googleLogin={googleLogin}  />} />
-          </Routes>
-        </div>
+      <ResponsiveAppBar profile={profile} login={googleLogin} logOut={logOut} />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="All" element={<LandingPage />} />
+        <Route path="Upcoming" element={<UpcomingEvents />} />
+        <Route path="categories/:category" element={<Category />} />
+        <Route path="SearchResults" element={<SearchResults />} />
+        <Route path="events/:id" element={<EventDetails />} />
+        <Route path="Login" element={<Login googleLogin={googleLogin} profile={profile} setProfile={setProfile} />} />
+        <Route path="Register" element={<Register googleLogin={googleLogin} />} />
+
+        {/** Required to log in */}
+        <Route element={<RequireAuth />}>
+          <Route path="My-Events" element={<MyEvents profile={profile} />} />
+          <Route path="PostEvent" element={<PostEvent />} />
+          <Route path="Bookmarks" element={<Bookmarks />} />
+        </Route>
+        {/** Catch all */}
+        <Route path="*" element={<LandingPage />} />
+      </Routes>
     </LocalizationProvider>
   );
 }

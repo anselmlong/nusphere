@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
 import Dropdown from './Dropdown';
 import SearchBar from './SearchAppBar';
+import useAuth from '../../hooks/useAuth';
 
 // Declare names for headers and settings
 const pages = ['All', 'Upcoming'];
@@ -65,9 +66,37 @@ function ResponsiveAppBar({ profile, login, logOut }) {
     navigate(path);
   }
 
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
   return (
     <>
-      <AppBar position="static" sx={{ bgcolor: "white", padding: 0 , boxshadow: "none" }}>
+      <AppBar position="static" sx={{ bgcolor: "white", padding: 0, boxshadow: "none" }}>
         <Container sx={{ maxWidth: 'x1' }}>
           <Toolbar disableGutters>
             {/** Logo positioned outside and above the navigation bar */}
@@ -103,7 +132,7 @@ function ResponsiveAppBar({ profile, login, logOut }) {
             </Box>
 
             {/** Bookmark button */}
-            <Box sx={{ m : 2}}>
+            <Box sx={{ m: 2 }}>
               <Link to="/Bookmarks">
                 <IconButton>
                   <BookmarkIcon />
@@ -119,9 +148,11 @@ function ResponsiveAppBar({ profile, login, logOut }) {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {profile ? (
-                    <div>
+                    profile.picture ? (
                       <Avatar alt="user image" src={profile.picture} />
-                    </div>
+                    ) : (
+                      <Avatar {...stringAvatar(profile.name)} />
+                    )
                   ) : (
                     <Button variant="contained" onClick={handleLogIn} >Log In</Button>
                   )}
