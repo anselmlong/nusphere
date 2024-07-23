@@ -36,7 +36,7 @@ const MyEvents = ({ profile }) => {
     };
 
     const filterUserEvents = (events) => {
-        const filteredEvents = events.filter(event => event.creatorEmail === profile.email);
+        const filteredEvents = events.filter(event => event.email === profile.email);
         setUserEvents(filteredEvents);
     };
 

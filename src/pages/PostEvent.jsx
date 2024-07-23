@@ -73,7 +73,8 @@ const PostEvent = () => {
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
-        formData.append('userID', 1); // Hardcoded user_id for now
+        formData.append('userID', 9); // Hardcoded user_id for now
+
         if (picture) {
             formData.append('picture', picture);
         } else {

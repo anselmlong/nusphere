@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Events from "../components/Events";
+import { Typography } from "@mui/material";
 
 const SearchResults = () => {
 
@@ -36,11 +37,11 @@ const SearchResults = () => {
     <div className="search-results">
       {search(data).length > 0
         ? <div>
-          <h1 className="text-3xl">Search Results for "{query}"</h1>
+          <Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>Search Results for "{query}"</Typography>
           <Events eventsData={search(data)} />
         </div>
         : <div>
-          <h1 className="text-3xl">No results found for "{query}"</h1>
+          <Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>No results found for "{query}"</Typography>
         </div>
       }
     </div>
