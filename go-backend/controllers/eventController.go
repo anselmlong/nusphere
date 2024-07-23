@@ -39,11 +39,11 @@ func GetEvents(c *gin.Context) { //c contains information of incoming HTTP reque
 }
 
 func GetEventByID(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("user_id")
 	var event models.Event
 
 	//Query uses a placeholder ($1) to prevent SQL injection
-	err := database.DB.QueryRow("SELECT title, date, description, image_url, type, price, organiser, start_time, end_time, registration_link, location FROM events WHERE id = $1", id).Scan(&event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price, &event.Organiser, &event.StartTime, &event.EndTime, &event.RegistrationLink, &event.Location)
+	err := database.DB.QueryRow("SELECT title, date, description, image_url, type, price, organiser, start_time, end_time, registration_link, location FROM events WHERE user_id = $1", id).Scan(&event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price, &event.Organiser, &event.StartTime, &event.EndTime, &event.RegistrationLink, &event.Location)
 	if err != nil {
 		if err == sql.ErrNoRows { // Check if the error is because no rows were found
 			c.JSON(http.StatusNotFound, gin.H{"message": "Event not found"})
@@ -70,6 +70,7 @@ func CreateEvent(c *gin.Context) {
 	event.EndTime = c.PostForm("endTime")
 	event.RegistrationLink = c.PostForm("registrationLink")
 	event.Location = c.PostForm("location")
+	event.UserID = c.PostForm("userID")
 
 	if err := c.ShouldBind(&event); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -95,8 +96,8 @@ func CreateEvent(c *gin.Context) {
 	//event.ImageUrl = "/" + filePath
 	event.ImageUrl = file.Filename
 
-	_, err = database.DB.Exec("INSERT INTO events (title, date, description, type, image_url, price, organiser, start_time, end_time, registration_link, location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
-		event.Title, event.Date, event.Description, event.Type, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location)
+	_, err = database.DB.Exec("INSERT INTO events (title, date, description, type, image_url, price, organiser, start_time, end_time, registration_link, location, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
+		event.Title, event.Date, event.Description, event.Type, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location, event.UserID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
