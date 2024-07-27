@@ -63,7 +63,6 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 					<Item>
 					<div key={index} className="event-card" onClick={() => handleEventClick(event.id)}>
 						<img src ={event.imageUrl} alt={event.title} />
-						{/*<img className='img' src={'../img/' + event.imageUrl} alt={event.title} />*/}
 						{/*console.log(event.imageUrl)*/}
 
 						<Typography variant="h5">{event.title}</Typography>

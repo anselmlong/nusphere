@@ -41,7 +41,7 @@ Ensure you have the following installed:
     ```bash
     DATABASE_URL=postgres://youruser:yourpassword@localhost:5432/yourdb?sslmode=disable
 
-3. **Create the events and users table in PostgreSQL:**
+3. **Create the events, users and bookmarks table in PostgreSQL:**
     ```sql
     CREATE TABLE events (
         id SERIAL PRIMARY KEY,
@@ -65,6 +65,14 @@ Ensure you have the following installed:
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
+    );
+
+    CREATE TABLE bookmarks (
+        id SERIAL PRIMARY KEY,
+        user_id INT NOT NULL,
+        event_id INT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (event_id) REFERENCES events(id)
     );
 
 4. **Run the backend server:**
