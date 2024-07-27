@@ -21,13 +21,10 @@ function toTitleCase(str) {
     );
 }
 
-const getUserID = () => {
-    const token = localStorage.getItem('SavedToken');
-    const decoded = jwtDecode(token);
-    console.log(decoded);
-    console.log(decoded.user_id);
-    return decoded.user_id;
-}
+const token = localStorage.getItem('SavedToken');
+const decoded = jwtDecode(token);
+const userID = decoded.user_id;
+
 
 const MyEvents = ({ profile }) => {
 
@@ -49,21 +46,16 @@ const MyEvents = ({ profile }) => {
 
     // Filter events based on userID
     function myEvents(data) {
-        const userID = getUserID();
-        return data.filter((event) => event.user_id === userID);
+        return data.filter((event) => event.userID == userID);
     }
+
+    console.log(myEvents(data));
 
     let navigate = useNavigate();
     const routeChange = () => {
         let path = `/PostEvent`;
         navigate(path);
     }
-
-    const handleEditEvent = () => {
-        //let path = "/edit/${eventId}";
-        let path = `/EditEvent`;
-        navigate(path);
-    };
 
     const handleDeleteEvent = (eventId) => {
         axios.delete(`${process.env.REACT_APP_BACKEND_URL}/events/${eventId}`)
@@ -88,7 +80,7 @@ const MyEvents = ({ profile }) => {
                         </Button>
                     </Box>
                     <Box display="flex" alignItems={"left"}>
-                        <Events eventsData={myEvents(data)} editButton={true} deleteButton={true} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
+                        <Events eventsData={myEvents(data)} editButton={true} deleteButton={true} onDeleteEvent={handleDeleteEvent} />
                     </Box>
                 </>
             }

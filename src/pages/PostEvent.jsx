@@ -38,6 +38,13 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
+function addHttps(link) {
+    if (!link.startsWith('http://') && !link.startsWith('https://')) {
+        return 'https://' + link;
+    }
+    return link;
+}
+
 const PostEvent = () => {
     let dateObj = Date();
 
@@ -73,6 +80,7 @@ const PostEvent = () => {
         const formattedDate = date.format('dddd, DD MMMM YYYY'); // Example: Monday, 01 January 2022
         const formattedStartTime = startTime ? startTime.format('HH:mm') : ''; // Example: 14:30
         const formattedEndTime = endTime ? endTime.format('HH:mm') : ''; // Example: 15:30
+        const formattedLink = addHttps(registrationLink);
 
         const formData = new FormData();
 
@@ -102,7 +110,7 @@ const PostEvent = () => {
         formData.append('startTime', formattedStartTime);
         formData.append('endTime', formattedEndTime);
         formData.append('type', type);
-        formData.append('registrationLink', registrationLink);
+        formData.append('registrationLink', formattedLink);
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
