@@ -18,9 +18,12 @@ import dayjs, { Dayjs } from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { Cloudinary } from 'cloudinary-core';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
+
+const cloudinary = new Cloudinary({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME, secure: true });
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -50,11 +53,9 @@ const PostEvent = () => {
     const [picture, setPicture] = useState('');
     const [isFree, setIsFree] = useState(true);
 
-    const getUserID = () => {
-        
-    }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+      
         e.preventDefault();
 
         if (!eventTitle || !date || !startTime || !endTime || !type || !registrationLink || !organiser || !location || !eventDescription) {
@@ -67,6 +68,26 @@ const PostEvent = () => {
         const formattedEndTime = endTime ? endTime.format('HH:mm') : ''; // Example: 15:30
 
         const formData = new FormData();
+        let pictureUrl = '';
+        if (picture) {
+            formData.append('file', picture);
+            formData.append('upload_preset', 'nusphere');
+
+            try {
+                const response = await axios.post(`https://api.cloudinary.com/v1_1/dj9cxk8jl/image/upload`, formData);
+                pictureUrl = response.data.secure_url;
+            } catch (error) {
+                console.error('Error uploading image to Cloudinary', error);
+                alert('Failed to upload image. Please try again.');
+                return;
+            }
+
+        } else {
+            setPicture('');
+            formData.append('file', '');
+        }
+
+        //const formData = new FormData();
         formData.append('eventTitle', eventTitle);
         formData.append('date', formattedDate);
         formData.append('cost', isFree ? '0' : cost);
@@ -77,15 +98,10 @@ const PostEvent = () => {
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
+        formData.append('picture', pictureUrl);
         formData.append('userID', getUserID()); // Hardcoded user_id for now
-        
 
-        if (picture) {
-            formData.append('picture', picture);
-        } else {
-            setPicture('');
-            formData.append('picture', '');
-        }
+        
 
         for (let [key, value] of formData.entries()) {
             console.log(key, value);
