@@ -111,8 +111,8 @@ function App() {
 
         {/** Required to log in */}
         <Route element={<RequireAuth />}>
-          <Route path="My-Events" element={<MyEvents profile={profile} />} />
           <Route path="PostEvent" element={<PostEvent />} />
+          <Route path="My-Events" element={<MyEvents profile={profile} />} />
           <Route path="Bookmarks" element={<Bookmarks />} />
         </Route>
         {/** Catch all */}

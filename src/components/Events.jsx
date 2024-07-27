@@ -13,6 +13,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
+import Grid from '@mui/material/Grid';
+import Item from '@mui/material/Grid';
 
 // Define a mapping of event types to colors
 const eventTypeToColor = {
@@ -55,8 +57,10 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 
 	return (
 		<div className="events">
+			<Grid container spacing={2}>
 			{eventsData.map((event, index) => (
-				<div>
+				<Grid item xs={6}>
+					<Item>
 					<div key={index} className="event-card" onClick={() => handleEventClick(event.id)}>
 						<img className='img' src={'../img/' + event.imageUrl} alt={event.title} />
 						{/*console.log(event.imageUrl)*/}
@@ -68,8 +72,8 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 								overflow: 'hidden',
 								display: '-webkit-box',
 								WebkitBoxOrient: 'vertical',
-								WebkitLineClamp: 3, // Adjust the number of lines to show
-								lineClamp: 3,
+								WebkitLineClamp: 2, // Adjust the number of lines to show
+								lineClamp: 2, // Adjust the number of lines to show
 							}}>
 							{event.description}
 						</Typography>
@@ -92,6 +96,8 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 						</Box>
 
 					</div>
+
+					{/* Edit and Delete buttons */}
 					<div className="event-buttons">
 						<Box display={"flex"}>
 						{editButton &&
@@ -131,8 +137,10 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 						}
 						</Box>
 					</div>
-				</div>
+					</Item>
+				</Grid>
 			))}
+			</Grid>
 		</div>
 	)
 }
