@@ -13,5 +13,5 @@ type Event struct {
 	EndTime          string `json:"endTime"`
 	RegistrationLink string `json:"registrationLink"`
 	Location         string `json:"location"`
-	UserID           string `json:"userId"`
+	UserID           string `json:"userID"`
 }
