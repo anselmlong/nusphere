@@ -18,6 +18,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { jwtDecode } from 'jwt-decode';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -51,7 +52,11 @@ const PostEvent = () => {
     const [isFree, setIsFree] = useState(true);
 
     const getUserID = () => {
-        
+        const token = localStorage.getItem('SavedToken');
+        const decoded = jwtDecode(token);
+        console.log(decoded);
+        console.log(decoded.user_id);
+        return decoded.user_id;
     }
 
     const handleSubmit = (e) => {

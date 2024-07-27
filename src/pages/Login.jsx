@@ -73,8 +73,11 @@ export default function Login({ googleLogin, profile, setProfile }) {
             console.log(JSON.stringify(response?.data));
             console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
+            localStorage.setItem("SavedToken", 'Bearer ' + accessToken);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
             setAuth({ email, pwd, accessToken });
             console.log(accessToken);
+            console.log(localStorage.getItem("SavedToken"));
             console.log(email);
             console.log(pwd);
             setEmail('');

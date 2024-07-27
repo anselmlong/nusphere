@@ -5,6 +5,7 @@ import Events from '../components/Events';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 // LandingPage component
 const LandingPage = () => {
@@ -18,16 +19,11 @@ const LandingPage = () => {
 
   const [eventsData, setEvents] = useState([]);
 
-  //const eventsURL = 'http://localhost:8080/events';
-  const eventsURL = process.env.REACT_APP_BACKEND_URL + "/events";
+  const eventsURL = "/events";
 
   useEffect(() => {
-    //fetch('/api/events')
-    fetch(eventsURL)
-    console.log(process.env.REACT_APP_BACKEND_URL)
-    fetch(process.env.REACT_APP_BACKEND_URL + "/events")
-      .then(response => response.json())
-      .then(data => setEvents(data))
+    axios.get(process.env.REACT_APP_BACKEND_URL + eventsURL)
+      .then(response => setEvents(response.data))
       .catch(error => console.error('Error fetching events:', error));
   }, []);
 

@@ -7,7 +7,10 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./MyEvents.css";
+import { jwtDecode } from "jwt-decode";
 
+
+const eventsURL = "/events";
 
 function toTitleCase(str) {
     return str.replace(
@@ -18,28 +21,36 @@ function toTitleCase(str) {
     );
 }
 
-
+const getUserID = () => {
+    const token = localStorage.getItem('SavedToken');
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    console.log(decoded.user_id);
+    return decoded.user_id;
+}
 
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);
 
-    const fetchData = () => {
-        return fetch(process.env.REACT_APP_BACKEND_URL + "/events")
-            .then((res) => res.json())
-            .then((d) => {
-                setData(d);
-            });
-    };
-
     // Fetches the data from the server 
+
     useEffect(() => {
         fetchData();
     }, []);
 
+    const fetchData = () => {
+        axios.get(process.env.REACT_APP_BACKEND_URL + eventsURL)
+            .then(response => setData(response.data))
+            .catch(error => console.error('Error fetching events:', error));
+    };
+
+    console.log(data);
+
     // Filter events based on userID
     function myEvents(data) {
-        return data.filter((event) => event.userID === profile.id);
+        const userID = getUserID();
+        return data.filter((event) => event.user_id === userID);
     }
 
     let navigate = useNavigate();
@@ -64,7 +75,7 @@ const MyEvents = ({ profile }) => {
                 console.error("There was an error deleting the event!", error);
             });
     };
-    
+
 
     return (
         <div>
