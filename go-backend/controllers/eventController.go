@@ -134,3 +134,46 @@ func DeleteEvent(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Event deleted"})
 }
+
+func CreateBookmark(c *gin.Context) {
+	var bookmark models.Bookmark
+	if err := c.ShouldBindJSON(&bookmark); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err := database.DB.Exec("INSERT INTO bookmarks (user_id, event_id) VALUES ($1, $2)", bookmark.UserID, bookmark.EventID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Bookmark created"})
+}
+
+func GetBookmarks(c *gin.Context) {
+	userID := c.Param("userID")
+
+	rows, err := database.DB.Query(`
+        SELECT events.id, events.title, events.date, events.description, events.image_url, events.type, events.price
+        FROM bookmarks
+        JOIN events ON bookmarks.event_id = events.id
+        WHERE bookmarks.user_id = $1`, userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	defer rows.Close()
+
+	events := []Event{}
+	for rows.Next() {
+		var event models.Event
+		if err := rows.Scan(&event.Id, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		events = append(events, event)
+	}
+
+	c.JSON(http.StatusOK, events)
+}

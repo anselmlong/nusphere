@@ -62,7 +62,9 @@ const Events = ({ eventsData, editButton, deleteButton, onDeleteEvent }) => {
 				<Grid item xs={4}>
 					<Item>
 					<div key={index} className="event-card" onClick={() => handleEventClick(event.id)}>
+
 						<img className='img' src={event.imageUrl} alt={event.title} />
+
 						{/*console.log(event.imageUrl)*/}
 
 						<Typography variant="h5">{event.title}</Typography>
