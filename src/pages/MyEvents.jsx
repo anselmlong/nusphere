@@ -23,21 +23,13 @@ function toTitleCase(str) {
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);
-    const [userEvents, setUserEvents] = useState([]);
-    
 
     const fetchData = () => {
         return fetch(process.env.REACT_APP_BACKEND_URL + "/events")
             .then((res) => res.json())
             .then((d) => {
                 setData(d);
-                filterUserEvents(d);
             });
-    };
-
-    const filterUserEvents = (events) => {
-        const filteredEvents = events.filter(event => event.email === profile.email);
-        setUserEvents(filteredEvents);
     };
 
     // Fetches the data from the server 
@@ -45,11 +37,9 @@ const MyEvents = ({ profile }) => {
         fetchData();
     }, []);
 
-    // Placeholder function 
+    // Filter events based on userID
     function myEvents(data) {
-        return data.filter((data) =>
-            data
-        );
+        return data.filter((event) => event.userID === profile.id);
     }
 
     let navigate = useNavigate();
@@ -81,7 +71,7 @@ const MyEvents = ({ profile }) => {
             {profile &&
                 <>
                     <Box>
-                        <Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>{toTitleCase(profile.given_name)}'s Events: </Typography>
+                        <Typography fontWeight="800" variant="h4" sx={{ m: 2 }}>{toTitleCase(profile.name)}'s Events: </Typography>
                         <Button className="Button" variant="contained" onClick={routeChange} sx={{ mx: 2, backgroundColor: "green" }}>
                             Post Event
                         </Button>

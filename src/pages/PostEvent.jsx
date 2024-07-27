@@ -53,7 +53,9 @@ const PostEvent = () => {
     const [picture, setPicture] = useState('');
     const [isFree, setIsFree] = useState(true);
 
+
     const handleSubmit = async (e) => {
+      
         e.preventDefault();
 
         if (!eventTitle || !date || !startTime || !endTime || !type || !registrationLink || !organiser || !location || !eventDescription) {
@@ -96,8 +98,8 @@ const PostEvent = () => {
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
-        formData.append('userID', 9); // Hardcoded user_id for now
         formData.append('picture', pictureUrl);
+        formData.append('userID', getUserID()); // Hardcoded user_id for now
 
         
 
