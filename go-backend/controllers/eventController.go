@@ -14,7 +14,7 @@ import (
 func GetEvents(c *gin.Context) { //c contains information of incoming HTTP request
 
 	//SQL database query
-	rows, err := database.DB.Query("SELECT id, title, date, description, image_url, type, price FROM events")
+	rows, err := database.DB.Query("SELECT id, title, date, description, image_url, type, price, user_id FROM events")
 
 	//Error handling
 	if err != nil {
@@ -26,7 +26,7 @@ func GetEvents(c *gin.Context) { //c contains information of incoming HTTP reque
 	events := []models.Event{} //initialise empty slice of event
 	for rows.Next() {
 		var event models.Event
-		if err := rows.Scan(&event.Id, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price); err != nil {
+		if err := rows.Scan(&event.Id, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price, &event.UserID); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}

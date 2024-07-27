@@ -24,7 +24,7 @@ import { Cloudinary } from 'cloudinary-core';
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 
-const cloudinary = new Cloudinary({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME, secure: true });
+//const cloudinary = new Cloudinary({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME, secure: true });
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
