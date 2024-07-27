@@ -3,7 +3,6 @@ package controllers
 import (
 	"database/sql"
 	"net/http"
-	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 
@@ -62,7 +61,7 @@ func CreateEvent(c *gin.Context) {
 	event.Title = c.PostForm("eventTitle")
 	event.Date = c.PostForm("date")
 	event.Description = c.PostForm("eventDescription")
-	//event.ImageUrl = c.PostForm("picture")
+	event.ImageUrl = c.PostForm("picture")
 	event.Type = c.PostForm("type")
 	event.Price = c.PostForm("cost")
 	event.Organiser = c.PostForm("organiser")
@@ -78,25 +77,25 @@ func CreateEvent(c *gin.Context) {
 	}
 
 	// Handle image upload
-	file, err := c.FormFile("picture")
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	//file, err := c.FormFile("picture")
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	//	return
+	//}
 	// Save the uploaded file to a specific directory
 	// For example, you can use the filepath package to generate a unique file name
 	//filePath := "public/img/" + file.Filename
-	filePath := filepath.Join("..", "public", "img", file.Filename)
-	if err := c.SaveUploadedFile(file, filePath); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	//filePath := filepath.Join("..", "public", "img", file.Filename)
+	//if err := c.SaveUploadedFile(file, filePath); err != nil {
+	//	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	//	return
+	//}
 
 	// Set the image URL to the file path in your event struct
 	//event.ImageUrl = "/" + filePath
-	event.ImageUrl = file.Filename
+	//event.ImageUrl = file.Filename
 
-	_, err = database.DB.Exec("INSERT INTO events (title, date, description, type, image_url, price, organiser, start_time, end_time, registration_link, location, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
+	_, err := database.DB.Exec("INSERT INTO events (title, date, description, type, image_url, price, organiser, start_time, end_time, registration_link, location, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
 		event.Title, event.Date, event.Description, event.Type, event.ImageUrl, event.Price, event.Organiser, event.StartTime, event.EndTime, event.RegistrationLink, event.Location, event.UserID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
