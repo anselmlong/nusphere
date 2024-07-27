@@ -50,6 +50,10 @@ const PostEvent = () => {
     const [picture, setPicture] = useState('');
     const [isFree, setIsFree] = useState(true);
 
+    const getUserID = () => {
+        
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -73,7 +77,8 @@ const PostEvent = () => {
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
-        formData.append('userID', 9); // Hardcoded user_id for now
+        formData.append('userID', getUserID()); // Hardcoded user_id for now
+        
 
         if (picture) {
             formData.append('picture', picture);
