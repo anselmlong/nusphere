@@ -18,8 +18,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { jwtDecode } from 'jwt-decode';
 import { Cloudinary } from 'cloudinary-core';
+import { jwtDecode } from 'jwt-decode';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -38,6 +38,13 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
+function addHttps(link) {
+    if (!link.startsWith('http://') && !link.startsWith('https://')) {
+        return 'https://' + link;
+    }
+    return link;
+}
+
 const PostEvent = () => {
     let dateObj = Date();
 
@@ -54,16 +61,15 @@ const PostEvent = () => {
     const [picture, setPicture] = useState('');
     const [isFree, setIsFree] = useState(true);
 
-    const getUserID = () => {
-        const token = localStorage.getItem('SavedToken');
-        const decoded = jwtDecode(token);
-        console.log(decoded);
-        console.log(decoded.user_id);
-        return decoded.user_id;
-    }
+
+    const token = localStorage.getItem('SavedToken');
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    console.log(decoded.user_id);
+    const userID = decoded.user_id;
 
     const handleSubmit = async (e) => {
-      
+
         e.preventDefault();
 
         if (!eventTitle || !date || !startTime || !endTime || !type || !registrationLink || !organiser || !location || !eventDescription) {
@@ -74,9 +80,12 @@ const PostEvent = () => {
         const formattedDate = date.format('dddd, DD MMMM YYYY'); // Example: Monday, 01 January 2022
         const formattedStartTime = startTime ? startTime.format('HH:mm') : ''; // Example: 14:30
         const formattedEndTime = endTime ? endTime.format('HH:mm') : ''; // Example: 15:30
+        const formattedLink = addHttps(registrationLink);
 
         const formData = new FormData();
+
         let pictureUrl = '';
+
         if (picture) {
             formData.append('file', picture);
             formData.append('upload_preset', 'nusphere');
@@ -95,21 +104,18 @@ const PostEvent = () => {
             formData.append('file', '');
         }
 
-        //const formData = new FormData();
         formData.append('eventTitle', eventTitle);
         formData.append('date', formattedDate);
         formData.append('cost', isFree ? '0' : cost);
         formData.append('startTime', formattedStartTime);
         formData.append('endTime', formattedEndTime);
         formData.append('type', type);
-        formData.append('registrationLink', registrationLink);
+        formData.append('registrationLink', formattedLink);
         formData.append('organiser', organiser);
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
         formData.append('picture', pictureUrl);
-        formData.append('userID', getUserID()); // Hardcoded user_id for now
-
-        
+        formData.append('userID', userID);
 
         for (let [key, value] of formData.entries()) {
             console.log(key, value);
@@ -231,7 +237,7 @@ const PostEvent = () => {
 
                 <Box className="datetime" display={"flex"} justifyContent={"space-between"} sx={{ mt: 2 }} data-testid="datetime-section">
                     <Box>
-                        <DatePicker 
+                        <DatePicker
                             sx={{ width: '80%' }}
                             value={date}
                             onChange={(newDate) => setDate(newDate)}

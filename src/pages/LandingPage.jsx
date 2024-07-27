@@ -27,6 +27,8 @@ const LandingPage = () => {
       .catch(error => console.error('Error fetching events:', error));
   }, []);
 
+  console.log(eventsData);
+   
   let navigate = useNavigate();
   const routeChange = () => {
     // Check if user is logged in - if not logged in, bring to sign up page.

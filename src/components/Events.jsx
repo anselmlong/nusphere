@@ -26,7 +26,7 @@ const eventTypeToColor = {
 };
 
 
-const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEvent }) => {
+const Events = ({ eventsData, editButton, deleteButton, onDeleteEvent }) => {
 	let navigate = useNavigate();
 	const [editing, setEditing] = useState(false);
 	const [open, setOpen] = React.useState(false);
@@ -57,12 +57,14 @@ const Events = ({ eventsData, editButton, deleteButton, onEditEvent, onDeleteEve
 
 	return (
 		<div className="events">
-			<Grid container spacing={2}>
+			<Grid container spacing={1}>
 			{eventsData.map((event, index) => (
-				<Grid item xs={6}>
+				<Grid item xs={4}>
 					<Item>
 					<div key={index} className="event-card" onClick={() => handleEventClick(event.id)}>
-						<img src ={event.imageUrl} alt={event.title} />
+
+						<img className='img' src={event.imageUrl} alt={event.title} />
+
 						{/*console.log(event.imageUrl)*/}
 
 						<Typography variant="h5">{event.title}</Typography>

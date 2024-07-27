@@ -36,6 +36,8 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
+
+
 // Define a mapping of event types to colors
 const eventTypeToColor = {
     Academic: "blue",
@@ -178,16 +180,14 @@ const EventDetails = () => {
 
     const handleBookmark = () => {
         // Add the event to the user's bookmarks
-        axios.put(process.env.REACT_APP_BACKEND_URL + "/users/" + id, {
-            bookmarked_id: id
-        })
+        axios.post(process.env.REACT_APP_BACKEND_URL + "/bookmarks/", {event})
             .then(response => {
                 setBookmarked(true);
                 alert("Event has been bookmarked!");
             })
             .catch(error => {
                 console.error('There was an error bookmarking the event!', error);
-                alert("There was an error bookmarking the event! YIXHI PLS FIX");
+                alert("There was an error bookmarking the event!");
             });
     };
 
@@ -239,18 +239,12 @@ const EventDetails = () => {
             {/** Display the event image, if available */}
             {event.imageUrl &&
                 <Box display="flex" alignItems={"center"} justifyContent={"center"}>
-                    <img
-                        src={"/img/" + event.imageUrl} alt={event.title} />
+                    <img src={event.imageUrl} alt={event.title} />
                 </Box>
             }
             {/** TODO - Doesn't work */}
             {editing && (
                 <>
-                    {!imageEditing && (
-                        <IconButton onClick={() => setImageEditing(true)}>
-                            <EditIcon />
-                        </IconButton>
-                    )}
                     {imageEditing && (
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <Button
@@ -313,21 +307,21 @@ const EventDetails = () => {
                         {!timeEditing && (
                             <IconButton onClick={() => setTimeEditing(true)}>
                                 <EditIcon />
-                        </IconButton>
+                            </IconButton>
                         )}
                         {timeEditing && (
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <TimePicker
                                     sx={{ maxWidth: '30%', mx: 1 }}
                                     label="Start Time"
-                                    value={newStartTime || dayjs(event.startTime, 'HH:mm')}
+                                    value={dayjs(event.startTime, 'HH:mm')}
                                     onChange={(newTime) => setNewStartTime(newTime)}
                                     renderInput={(params) => <TextField {...params} sx={{ marginRight: 2 }} />}
                                 />
                                 <TimePicker
                                     sx={{ maxWidth: '30%', mx: 1 }}
                                     label="End Time"
-                                    value={newEndTime || dayjs(event.endTime, 'HH:mm')}
+                                    value={dayjs(event.endTime, 'HH:mm')}
                                     onChange={(newTime) => setNewEndTime(newTime)}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
