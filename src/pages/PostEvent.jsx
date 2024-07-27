@@ -18,8 +18,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { jwtDecode } from 'jwt-decode';
 import { Cloudinary } from 'cloudinary-core';
+import { jwtDecode } from 'jwt-decode';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
@@ -54,16 +54,15 @@ const PostEvent = () => {
     const [picture, setPicture] = useState('');
     const [isFree, setIsFree] = useState(true);
 
-    const getUserID = () => {
-        const token = localStorage.getItem('SavedToken');
-        const decoded = jwtDecode(token);
-        console.log(decoded);
-        console.log(decoded.user_id);
-        return decoded.user_id;
-    }
+
+    const token = localStorage.getItem('SavedToken');
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    console.log(decoded.user_id);
+    const userID = decoded.user_id;
 
     const handleSubmit = async (e) => {
-      
+
         e.preventDefault();
 
         if (!eventTitle || !date || !startTime || !endTime || !type || !registrationLink || !organiser || !location || !eventDescription) {
@@ -76,7 +75,9 @@ const PostEvent = () => {
         const formattedEndTime = endTime ? endTime.format('HH:mm') : ''; // Example: 15:30
 
         const formData = new FormData();
+
         let pictureUrl = '';
+
         if (picture) {
             formData.append('file', picture);
             formData.append('upload_preset', 'nusphere');
@@ -95,7 +96,6 @@ const PostEvent = () => {
             formData.append('file', '');
         }
 
-        //const formData = new FormData();
         formData.append('eventTitle', eventTitle);
         formData.append('date', formattedDate);
         formData.append('cost', isFree ? '0' : cost);
@@ -107,9 +107,7 @@ const PostEvent = () => {
         formData.append('location', location);
         formData.append('eventDescription', eventDescription);
         formData.append('picture', pictureUrl);
-        formData.append('userID', getUserID()); // Hardcoded user_id for now
-
-        
+        formData.append('userID', userID);
 
         for (let [key, value] of formData.entries()) {
             console.log(key, value);
@@ -231,7 +229,7 @@ const PostEvent = () => {
 
                 <Box className="datetime" display={"flex"} justifyContent={"space-between"} sx={{ mt: 2 }} data-testid="datetime-section">
                     <Box>
-                        <DatePicker 
+                        <DatePicker
                             sx={{ width: '80%' }}
                             value={date}
                             onChange={(newDate) => setDate(newDate)}
