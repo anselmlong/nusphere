@@ -1,12 +1,12 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
 
-const RequireAuth = ({ allowedRoles }) => {
+const PrivateRoute = ({ allowedRoles }) => {
     const { auth } = useAuth();
     const location = useLocation();
 
     return (
-        auth?.email
+        localStorage.getItem("isLoggedIn")
             ? <Outlet />
             :
             <>
@@ -16,4 +16,4 @@ const RequireAuth = ({ allowedRoles }) => {
     );
 }
 
-export default RequireAuth;
+export default PrivateRoute;

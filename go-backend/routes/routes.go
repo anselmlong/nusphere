@@ -16,6 +16,6 @@ func InitialiseRoutes(router *gin.Engine) {
 	router.POST("/users", controllers.TraditionalSignUp)
 	router.POST("/users-login", controllers.TraditionalLogin)
 	router.POST("/google-users", controllers.GoogleLogin)
-	router.POST("/bookmarks", CreateBookmark)
-	router.GET("/bookmarks/:id", GetBookmark)
+	router.POST("/bookmarks", controllers.CreateBookmark)
+	router.GET("/bookmarks/:id", controllers.GetBookmark)
 }

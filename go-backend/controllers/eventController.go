@@ -151,7 +151,7 @@ func CreateBookmark(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Bookmark created"})
 }
 
-func GetBookmarks(c *gin.Context) {
+func GetBookmark(c *gin.Context) {
 	userID := c.Param("userID")
 
 	rows, err := database.DB.Query(`
@@ -165,7 +165,7 @@ func GetBookmarks(c *gin.Context) {
 	}
 	defer rows.Close()
 
-	events := []Event{}
+	events := []models.Event{}
 	for rows.Next() {
 		var event models.Event
 		if err := rows.Scan(&event.Id, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price); err != nil {
