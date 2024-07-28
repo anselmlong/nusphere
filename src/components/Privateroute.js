@@ -12,7 +12,6 @@ const PrivateRoute = ({ allowedRoles }) => {
             <>
                 <Navigate to="/login" state={{ from: location }} replace />
             </>
-
     );
 }
 

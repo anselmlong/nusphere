@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./MyEvents.css";
 import { jwtDecode } from "jwt-decode";
-import { useLocalStorage } from "../useLocalStorage";    
 
 const eventsURL = "/events";
 
@@ -22,11 +21,20 @@ function toTitleCase(str) {
 }
 
 
-
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);
-    const [userID, setUserID] = useLocalStorage('SavedToken', '');
+    const token = localStorage.getItem('SavedToken');
+    let userID;
+    if (token) {
+        try {
+            const decodedToken = jwtDecode(token);
+            userID = decodedToken.user_id;
+        } catch (error) {
+            console.error("Error decoding token:", error);
+        }
+    }
+    
 
     // Fetches the data from the server 
 
@@ -87,28 +95,3 @@ const MyEvents = ({ profile }) => {
 };
 
 export default MyEvents;
-
-/**
- * 
-email
-: 
-"anselmpius@gmail.com"
-family_name
-: 
-"long"  
-given_name
-: 
-"anselm"
-id
-: 
-"116701179252726109160"
-name
-: 
-"anselm long"
-picture
-: 
-"https://lh3.googleusercontent.com/a/ACg8ocKi9DT1lPnJrGkBjbJkww8nPiKJJQo5nWOZTvz8rMCEMzYqCBUVWw=s96-c"
-verified_email
-: 
-true
- */

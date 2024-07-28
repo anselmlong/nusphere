@@ -39,8 +39,6 @@ export default function Login({ googleLogin, profile, setProfile }) {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-
-    const userRef = useRef();
     const errRef = useRef();
 
     const [email, setEmail] = useState('');

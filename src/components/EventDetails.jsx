@@ -36,10 +36,6 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-const token = localStorage.getItem('SavedToken');
-const decoded = jwtDecode(token);
-const userID = decoded.user_id;
-
 // Define a mapping of event types to colors
 const eventTypeToColor = {
     Academic: "blue",
@@ -51,6 +47,17 @@ const eventTypeToColor = {
 
 
 const EventDetails = () => {
+    const token = localStorage.getItem('SavedToken');
+    let userID;
+    if (token) {
+        try {
+            const decodedToken = jwtDecode(token);
+            userID = decodedToken.user_id;
+        } catch (error) {
+            console.error("Error decoding token:", error);
+        }
+    }
+
     let dateObj = Date();
     const { id } = useParams(); // Get the event ID from the URL
     const location = useLocation(); // Get the location object
@@ -183,15 +190,15 @@ const EventDetails = () => {
     const handleBookmark = () => {
         // Add the event to the user's bookmarks
         axios.post(process.env.REACT_APP_BACKEND_URL + "/bookmarks", {
-                user_id: parseInt(userID, 10),
-                event_id: parseInt(id, 10)
-            })
+            user_id: parseInt(userID, 10),
+            event_id: parseInt(id, 10)
+        })
             .then(response => {
                 setBookmarked(true);
                 alert("Event has been bookmarked!");
             })
             .catch(error => {
-                console.log({user_id: userID, event_id: id})
+                console.log({ user_id: userID, event_id: id })
                 console.error('There was an error bookmarking the event!', error);
                 alert("There was an error bookmarking the event!");
             });
