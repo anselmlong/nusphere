@@ -13,13 +13,13 @@ import Register from './pages/Register';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 // React stuff
 import React, { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import RequireAuth from './components/RequireAuth.js';
+import PrivateRoute from './components/Privateroute.js';
 import useAuth from './hooks/useAuth.js';
 
 function App() {
@@ -110,7 +110,7 @@ function App() {
         <Route path="Register" element={<Register googleLogin={googleLogin} />} />
 
         {/** Required to log in */}
-        <Route element={<RequireAuth />}>
+        <Route element={<PrivateRoute />}>
           <Route path="PostEvent" element={<PostEvent />} />
           <Route path="My-Events" element={<MyEvents profile={profile} />} />
           <Route path="Bookmarks" element={<Bookmarks />} />

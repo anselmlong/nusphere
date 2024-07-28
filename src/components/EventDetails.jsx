@@ -180,7 +180,10 @@ const EventDetails = () => {
 
     const handleBookmark = () => {
         // Add the event to the user's bookmarks
-        axios.post(process.env.REACT_APP_BACKEND_URL + "/bookmarks/", {event})
+        axios.post(process.env.REACT_APP_BACKEND_URL + "/bookmarks", {event
+                //user_id: event.UserId,
+                //event_id: event.id
+            })
             .then(response => {
                 setBookmarked(true);
                 alert("Event has been bookmarked!");
