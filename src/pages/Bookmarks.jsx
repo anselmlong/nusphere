@@ -9,16 +9,30 @@ import { jwtDecode } from "jwt-decode";
 const Bookmarks = () => {
 
 	const [data, setData] = useState([]);
-	const userID = jwtDecode(localStorage.getItem('SavedToken')).user_id;
-
-	// should return a list of events
-	// TODO: Implement this function
-	const fetchBookmarks = () => {
-		return axios.get(process.env.REACT_APP_BACKEND_URL + "/bookmarks/" + userID)
-			.then((res) => res.json())
-			.then((d) => setData(d));
+	const token = localStorage.getItem('SavedToken');
+	let userID;
+	if (token) {
+		try {
+			const decodedToken = jwtDecode(token);
+			userID = decodedToken.user_id;
+		} catch (error) {
+			console.error("Error decoding token:", error);
+		}
 	}
-
+	// should return a list of events
+	const fetchBookmarks = async () => {
+		if (!userID) {
+		  console.error("User ID is invalid.");
+		  return;
+		}
+		try {
+		  const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/bookmarks/${userID}`);
+		  setData(response.data);
+		} catch (error) {
+		  console.error("Error fetching bookmarks:", error);
+		}
+	  };
+	
 	// Fetches the data from the server 
 	useEffect(() => {
 		fetchBookmarks();

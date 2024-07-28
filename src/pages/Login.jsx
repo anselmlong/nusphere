@@ -74,9 +74,6 @@ export default function Login({ googleLogin, profile, setProfile }) {
             console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
             localStorage.setItem("SavedToken", 'Bearer ' + accessToken);
-            localStorage.setItem("isLoggedIn", true);
-            localStorage.setItem("email", response?.data?.email)
-            localStorage.setItem("name", response?.data?.name)
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
             setAuth({ email, pwd, accessToken });
             console.log(accessToken);

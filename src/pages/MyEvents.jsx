@@ -25,7 +25,6 @@ const token = localStorage.getItem('SavedToken');
 const decoded = jwtDecode(token);
 const userID = decoded.user_id;
 
-
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);

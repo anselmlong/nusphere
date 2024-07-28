@@ -9,16 +9,8 @@ import axios from 'axios';
 
 // LandingPage component
 const LandingPage = () => {
-  /* Using the useState hook to store the events data
-  The initial value of events is an empty array
-  The setEvents function is used to update the events data
-  The useEffect hook is used to fetch the events data from the server
-  The fetch function is used to make a GET request to the /api/events endpoint
-  The response is converted to JSON format using the json() method
-  The data is then stored in the events state using the setEvents function */
 
   const [eventsData, setEvents] = useState([]);
-
   const eventsURL = "/events";
 
   useEffect(() => {
@@ -31,15 +23,10 @@ const LandingPage = () => {
    
   let navigate = useNavigate();
   const routeChange = () => {
-    // Check if user is logged in - if not logged in, bring to sign up page.
-    // If logged in, bring to post event page.
-    // TODO - implement this properly
     let path = `../PostEvent`;
     navigate(path);
   }
-
   
-
   // Returns the landing page, with title text in h1, and description text in p.
   // Also includes a button to post an event. This should bring you to the log in page if you are not logged in.
   // Otherwise, will bring you to the posting page.

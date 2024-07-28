@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -152,14 +154,21 @@ func CreateBookmark(c *gin.Context) {
 }
 
 func GetBookmark(c *gin.Context) {
-	userID := c.Param("userID")
+	userID := c.Param("id")
+	userIDInt, err := strconv.Atoi(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID " + userID})
+		return
+	}
 
 	rows, err := database.DB.Query(`
         SELECT events.id, events.title, events.date, events.description, events.image_url, events.type, events.price
         FROM bookmarks
         JOIN events ON bookmarks.event_id = events.id
-        WHERE bookmarks.user_id = $1`, userID)
+        WHERE bookmarks.user_id = $1`, userIDInt)
+
 	if err != nil {
+		log.Printf("Error querying database: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -169,6 +178,7 @@ func GetBookmark(c *gin.Context) {
 	for rows.Next() {
 		var event models.Event
 		if err := rows.Scan(&event.Id, &event.Title, &event.Date, &event.Description, &event.ImageUrl, &event.Type, &event.Price); err != nil {
+			log.Printf("Error scanning row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}

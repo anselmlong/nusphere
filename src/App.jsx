@@ -19,7 +19,7 @@ import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import PrivateRoute from './components/Privateroute.js';
+import PrivateRoute from './components/PrivateRoute.js';
 import useAuth from './hooks/useAuth.js';
 
 function App() {
@@ -39,26 +39,7 @@ function App() {
     setUser(null);
     setProfile(null);
   };
-  // create a log in useEffect from a non-google log in
-  // and set the profile array to the response data.
-  {/**
-  const login = (email, password) => {
-    axios
-      .post(process.env.REACT_APP_BACKEND_URL + "/users-login", { email, password })
-      .then((res) => {
-        if (res) {
-          setProfile(res);
-          console.log(res);
-          console.log('User successfully logged in:', res.name);
-        } else {
-          console.log('Response data is undefined');
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-  */}
-
-
+  
   // don't touch this
   useEffect(
     () => {
@@ -92,9 +73,6 @@ function App() {
     },
     [user]
   );
-
-
-
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

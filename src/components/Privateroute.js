@@ -6,7 +6,7 @@ const PrivateRoute = ({ allowedRoles }) => {
     const location = useLocation();
 
     return (
-        localStorage.getItem("isLoggedIn")
+        auth?.email
             ? <Outlet />
             :
             <>

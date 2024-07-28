@@ -22,7 +22,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
-import { set } from 'mongoose';
+import { jwtDecode } from 'jwt-decode';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -36,7 +36,9 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-
+const token = localStorage.getItem('SavedToken');
+const decoded = jwtDecode(token);
+const userID = decoded.user_id;
 
 // Define a mapping of event types to colors
 const eventTypeToColor = {
@@ -180,15 +182,16 @@ const EventDetails = () => {
 
     const handleBookmark = () => {
         // Add the event to the user's bookmarks
-        axios.post(process.env.REACT_APP_BACKEND_URL + "/bookmarks", {event
-                //user_id: event.UserId,
-                //event_id: event.id
+        axios.post(process.env.REACT_APP_BACKEND_URL + "/bookmarks", {
+                user_id: parseInt(userID, 10),
+                event_id: parseInt(id, 10)
             })
             .then(response => {
                 setBookmarked(true);
                 alert("Event has been bookmarked!");
             })
             .catch(error => {
+                console.log({user_id: userID, event_id: id})
                 console.error('There was an error bookmarking the event!', error);
                 alert("There was an error bookmarking the event!");
             });
@@ -536,13 +539,6 @@ const EventDetails = () => {
                     </>
 
                 )}
-                {!editing
-                    &&
-                    // Future feature - add alerts for events
-                    <IconButton onClick={handleAddAlert}>
-                        <AddAlertIcon />
-                    </IconButton>
-                }
             </Box>
             {editing && (
                 <div>
