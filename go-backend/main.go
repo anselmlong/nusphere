@@ -45,6 +45,6 @@ func main() {
 	log.Default().Println("Server is running on port 8080")
 
 	// Run the server
-	router.Run(":8080")
+	router.Run()
 
 }
