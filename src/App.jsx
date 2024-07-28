@@ -19,8 +19,8 @@ import SearchResults from './pages/SearchResults';
 import Category from './components/Category';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import PrivateRoute from './components/PrivateRoute.js';
 import useAuth from './hooks/useAuth.js';
+import PrivateRoute from './components/PrivateRoute.js';
 
 function App() {
   const [user, setUser] = useState(null);
