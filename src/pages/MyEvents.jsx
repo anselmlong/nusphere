@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "./MyEvents.css";
 import { jwtDecode } from "jwt-decode";
-
+import { useLocalStorage } from "../useLocalStorage";    
 
 const eventsURL = "/events";
 
@@ -21,13 +21,12 @@ function toTitleCase(str) {
     );
 }
 
-const token = localStorage.getItem('SavedToken');
-const decoded = jwtDecode(token);
-const userID = decoded.user_id;
+
 
 const MyEvents = ({ profile }) => {
 
     const [data, setData] = useState([]);
+    const [userID, setUserID] = useLocalStorage('SavedToken', '');
 
     // Fetches the data from the server 
 
