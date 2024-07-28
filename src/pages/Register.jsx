@@ -230,19 +230,14 @@ export default function Register({ googleLogin }) {
                                 </Typography>
 
                             </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive new event updates via email."
-                                />
-                            </Grid>
+                            
                         </Grid>
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             disabled={!validPwd || !validMatch ? true : false}
-                            sx={{ mt: 2, mb: 2 }}
+                            sx={{ mt: 4, mb: 2 }}
                         >
                             Sign Up
                         </Button>

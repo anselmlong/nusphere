@@ -61,82 +61,84 @@ const Events = ({ eventsData, editButton, deleteButton, onDeleteEvent }) => {
 			<Grid container spacing={3}>
 				{eventsData.map((event, index) => (
 					<Grid item xs={12} sm={6} md={4} key={index}>
-						
-							<Box className="event-card" onClick={() => handleEventClick(event.id)}>
 
-								<img className='img' src={event.imageUrl} alt={event.title} />
-								<Typography variant="h5">{event.title}</Typography>
+						<Box className="event-card" onClick={() => handleEventClick(event.id)}>
 
-								<Typography variant="body1"
-									sx={{
-										overflow: 'hidden',
-										display: '-webkit-box',
-										WebkitBoxOrient: 'vertical',
-										WebkitLineClamp: 2, // Adjust the number of lines to show
-										lineClamp: 2, // Adjust the number of lines to show
-									}}>
-									{event.description}
-								</Typography>
+							<img className='img' src={event.imageUrl} alt={event.title} />
+							<Typography variant="h5">{event.title}</Typography>
 
-								<Box display="flex" sx={{ mt: 1 }}>
-									<CalendarMonthIcon />
-									<Typography variant="body1" style={{ marginLeft: 4 }}>{event.date}</Typography>
-								</Box>
+							<Typography variant="body1"
+								sx={{
+									overflow: 'hidden',
+									display: '-webkit-box',
+									WebkitBoxOrient: 'vertical',
+									WebkitLineClamp: 2, // Adjust the number of lines to show
+									lineClamp: 2, // Adjust the number of lines to show
+								}}>
+								{event.description}
+							</Typography>
 
-								<Box fontWeight="fontWeightMedium" sx={{ display: "inline-block", p: 0.5, my: 1, mr: 1, border: "2px solid gray", borderRadius: 2 }}>
-									<Typography variant="body1" sx={{ color: eventTypeToColor[event.type] || "black", fontWeight: "bold" }}>
-										{event.type}
-									</Typography>
-								</Box>
-
-								<Box sx={{ display: "inline-block", p: 0.5, my: 1, border: "2px solid gray", borderRadius: 2 }}>
-									<Typography>
-										{event.price > 0 ? "$" + event.price : "Free"}
-									</Typography>
-								</Box>
-
+							<Box display="flex" sx={{ mt: 1 }}>
+								<CalendarMonthIcon />
+								<Typography variant="body1" style={{ marginLeft: 4 }}>{event.date}</Typography>
 							</Box>
 
-							{/* Edit and Delete buttons */}
-							<Box display={"flex"} justifyContent="space-between">
+							<Box fontWeight="fontWeightMedium" sx={{ display: "inline-block", p: 0.5, my: 1, mr: 1, border: "2px solid gray", borderRadius: 2 }}>
+								<Typography variant="body1" sx={{ color: eventTypeToColor[event.type] || "black", fontWeight: "bold" }}>
+									{event.type}
+								</Typography>
+							</Box>
 
-								{editButton &&
+							<Box sx={{ display: "inline-block", p: 0.5, my: 1, border: "2px solid gray", borderRadius: 2 }}>
+								<Typography>
+									{event.price > 0 ? "$" + event.price : "Free"}
+								</Typography>
+							</Box>
+
+						</Box>
+
+						{/* Edit and Delete buttons */}
+						<Box display={"flex"}>
+
+							{editButton &&
+								<Box>
 									<Button variant="outlined" onClick={() => handleEditing(event.id)} sx={{ ml: 2, mr: 1 }} size="small">
 										Edit
 									</Button>
-								}
-								{deleteButton &&
-									<Box>
-										<Button variant="outlined" onClick={handleClickOpen} sx={{ mx: 1 }} color="error" size="small" >
-											Delete
-										</Button>
+								</Box>
+							}
+							{deleteButton &&
+								<Box>
+									<Button variant="outlined" onClick={handleClickOpen} sx={{ mx: 1 }} color="error" size="small" >
+										Delete
+									</Button>
 
-										<Dialog
-											open={open}
-											onClose={handleClose}
-											aria-labelledby="alert-dialog-title"
-											aria-describedby="alert-dialog-description"
-										>
-											<DialogTitle id="alert-dialog-title">
-												{"Delete event?"}
-											</DialogTitle>
+									<Dialog
+										open={open}
+										onClose={handleClose}
+										aria-labelledby="alert-dialog-title"
+										aria-describedby="alert-dialog-description"
+									>
+										<DialogTitle id="alert-dialog-title">
+											{"Delete event?"}
+										</DialogTitle>
 
-											<DialogContent>
-												<DialogContentText id="alert-dialog-description">
-													This cannot be undone. Be very sure!
-												</DialogContentText>
-											</DialogContent>
-											<DialogActions>
-												<Button onClick={handleClose}>Disagree</Button>
-												<Button onClick={() => handleDeleteEvent(event.id)} autoFocus>
-													Agree
-												</Button>
-											</DialogActions>
-										</Dialog>
-									</Box>
-								}
-							</Box>
-				
+										<DialogContent>
+											<DialogContentText id="alert-dialog-description">
+												This cannot be undone. Be very sure!
+											</DialogContentText>
+										</DialogContent>
+										<DialogActions>
+											<Button onClick={handleClose}>Disagree</Button>
+											<Button onClick={() => handleDeleteEvent(event.id)} autoFocus>
+												Agree
+											</Button>
+										</DialogActions>
+									</Dialog>
+								</Box>
+							}
+						</Box>
+
 					</Grid>
 				))}
 			</Grid>
