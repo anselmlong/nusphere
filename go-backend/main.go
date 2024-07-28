@@ -31,7 +31,7 @@ func main() {
 	// Enable CORS - for Frontend & Backend on different domains to communicate
 	// CORS configuration
 	corsConfig := cors.Config{
-		AllowOrigins:     []string{os.Getenv("BACKEND_URL")}, // Frontend URL
+		AllowOrigins:     []string{os.Getenv("FRONTEND_URL")}, // Frontend URL
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
